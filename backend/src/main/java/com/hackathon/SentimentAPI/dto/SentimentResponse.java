@@ -1,10 +1,21 @@
 package com.hackathon.SentimentAPI.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
-public record SentimentResponse(
-        @NotBlank
-        @Size(min = 10)
-        String text) {
+public class SentimentResponse {
+
+    private String previsao;
+    private Double probabilidade;
+
+    public SentimentResponse(String previsao, Double probabilidade) {
+        this.previsao = previsao;
+        this.probabilidade = probabilidade;
+    }
+
+    public String getPrevisao() {
+        return previsao;
+    }
+
+    public Double getProbabilidade() {
+        return probabilidade;
+    }
 }
