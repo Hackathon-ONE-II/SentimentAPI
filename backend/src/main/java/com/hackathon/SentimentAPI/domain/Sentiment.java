@@ -1,4 +1,4 @@
-package com.hackathon.SentimentAPI.domain.sentiment;
+package com.hackathon.SentimentAPI.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

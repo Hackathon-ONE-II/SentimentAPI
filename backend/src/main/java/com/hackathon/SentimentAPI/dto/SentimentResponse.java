@@ -1,9 +1,9 @@
-package com.hackathon.SentimentAPI.domain.sentiment;
+package com.hackathon.SentimentAPI.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record DadosEnviaSentiment(
+public record SentimentResponse(
         @NotBlank
         @Size(min = 10)
         String text) {
