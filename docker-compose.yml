@@ -3,3 +3,12 @@ services:
     build: ./backend
     ports:
       - "8080:8080"
+    environment:
+      - ML_SERVICE_URL=http://ml-service:8000/predict
+    depends_on:
+      - ml-service
+
+  ml-service:
+    build: ./ml-service
+    ports:
+      - "8000:8000"
