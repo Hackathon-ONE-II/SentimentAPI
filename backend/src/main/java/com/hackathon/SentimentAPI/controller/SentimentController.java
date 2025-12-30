@@ -4,15 +4,20 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import com.hackathon.SentimentAPI.dto.SentimentRequest;
 import com.hackathon.SentimentAPI.dto.SentimentResponse;
+import com.hackathon.SentimentAPI.service.SentimentService;
 
 @RestController
 @RequestMapping("/sentiment")
 public class SentimentController {
 
+    private final SentimentService sentimentService;
+
+    public SentimentController(SentimentService sentimentService) {
+        this.sentimentService = sentimentService;
+    }
+
     @PostMapping
     public SentimentResponse analisar(@RequestBody @Valid SentimentRequest request) {
-
-        // TEMPORAL (simulación)
-        return new SentimentResponse("Positivo", 0.95);
+        return sentimentService.analisar(request);
     }
 }
