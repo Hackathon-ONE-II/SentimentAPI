@@ -19,11 +19,6 @@ public class StatsController {
 
     @GetMapping
     public Map<String, Integer> stats() {
-        return Map.of(
-                "total", statsService.getTotal(),
-                "positivos", statsService.getPositivos(),
-                "negativos", statsService.getNegativos(),
-                "neutros", statsService.getNeutros()
-        );
+        return statsService.getStats();
     }
 }
