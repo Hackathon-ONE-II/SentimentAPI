@@ -19,18 +19,13 @@ public class SentimentService {
 
     public SentimentResponse analisar(SentimentRequest request) {
 
-        if (request.getText() == null || request.getText().isBlank()) {
-            throw new IllegalArgumentException("Texto não pode ser vazio");
-        }
+        MlServiceResponse mlResponse = mlServiceClient.predict(request.text());
 
-        MlServiceResponse mlResponse = mlServiceClient.predict(request.getText());
-
-        statsService.registrar(mlResponse.getPrevisao());
+        statsService.registrar(mlResponse.previsao());
 
         return new SentimentResponse(
-                mlResponse.getPrevisao(),
-                mlResponse.getProbabilidade()
+                mlResponse.previsao(),
+                mlResponse.probabilidade()
         );
     }
 }
-

@@ -2,46 +2,62 @@ package com.hackathon.SentimentAPI.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-        @ExceptionHandler(MethodArgumentNotValidException.class)
-        public ResponseEntity<Map<String, String>> handleValidationErrors(
-                        MethodArgumentNotValidException ex) {
+    // 🔹 Erros de validação (@Valid)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationErrors(
+            MethodArgumentNotValidException ex) {
 
-                Map<String, String> errors = new HashMap<>();
+        Map<String, String> erros = new HashMap<>();
 
-                ex.getBindingResult().getFieldErrors()
-                                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
-
-                return ResponseEntity
-                                .status(HttpStatus.BAD_REQUEST)
-                                .body(errors);
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            erros.put(error.getField(), error.getDefaultMessage());
         }
 
-        @ExceptionHandler(Exception.class)
-        public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {
+        Map<String, Object> resposta = new HashMap<>();
+        resposta.put("timestamp", LocalDateTime.now());
+        resposta.put("status", HttpStatus.BAD_REQUEST.value());
+        resposta.put("erros", erros);
 
-                Map<String, String> error = new HashMap<>();
-                error.put("erro", "Erro interno no servidor");
+        return ResponseEntity.badRequest().body(resposta);
+    }
 
-                return ResponseEntity
-                                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                .body(error);
-        }
+    // 🔹 Erros de regra de negócio
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> handleIllegalArgument(
+            IllegalArgumentException ex) {
 
-        @ExceptionHandler(RuntimeException.class)
-        public ResponseEntity<Map<String, String>> handleRuntime(RuntimeException ex) {
-                return ResponseEntity
-                                .status(HttpStatus.SERVICE_UNAVAILABLE)
-                                .body(Map.of("erro", ex.getMessage()));
-        }
+        Map<String, Object> resposta = new HashMap<>();
+        resposta.put("timestamp", LocalDateTime.now());
+        resposta.put("status", HttpStatus.BAD_REQUEST.value());
+        resposta.put("mensagem", ex.getMessage());
 
+        return ResponseEntity.badRequest().body(resposta);
+    }
+
+    // 🔹 Erro genérico (500)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleGenericException(
+            Exception ex) {
+
+        Map<String, Object> resposta = new HashMap<>();
+        resposta.put("timestamp", LocalDateTime.now());
+        resposta.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        resposta.put("mensagem", "Erro interno no servidor");
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(resposta);
+    }
 }
