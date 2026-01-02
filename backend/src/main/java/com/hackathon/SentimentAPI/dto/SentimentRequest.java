@@ -18,6 +18,7 @@ public record SentimentRequest(
 ) {
         // trim para remover espaços em branco no início e no fim
         public SentimentRequest {
+                if (text != null)
                 text = text.trim();
         }
 }
