@@ -14,56 +14,69 @@ import java.util.Objects;
 
 @Component
 public class MlServiceClient {
-        // Log para monitoramento e depuração (podendo ser removido posteriormente)
-        private static final Logger log = LoggerFactory.getLogger(MlServiceClient.class);
 
-        private final RestTemplate restTemplate;
-        private final String mlServiceUrl;
+    // Log para monitoramento e depuração
+    private static final Logger log =
+            LoggerFactory.getLogger(MlServiceClient.class);
 
-        // Injeção de dependência via construtor
-        public MlServiceClient(
-                        RestTemplate restTemplate,
-                        @Value("${ml.service.url}") String mlServiceUrl) {
-                this.restTemplate = restTemplate;
-                this.mlServiceUrl = mlServiceUrl;
+    private final RestTemplate restTemplate;
+    private final String mlServiceUrl;
+
+    public MlServiceClient(
+            RestTemplate restTemplate,
+            @Value("${ml.service.url}") String mlServiceUrl) {
+        this.restTemplate = restTemplate;
+        this.mlServiceUrl = mlServiceUrl;
+    }
+
+    /**
+     * Chama o serviço de ML para prever o sentimento.
+     * Este método é blindado contra falhas externas.
+     */
+    public MlServiceResponse predict(String text) {
+
+        Objects.requireNonNull(text, "Texto não pode ser nulo");
+
+        Map<String, String> request = Map.of("text", text);
+
+        log.info("Chamando serviço de ML em {}", mlServiceUrl);
+
+        try {
+            ResponseEntity<MlServiceResponse> response =
+                    restTemplate.postForEntity(
+                            mlServiceUrl,
+                            request,
+                            MlServiceResponse.class
+                    );
+
+            if (!response.getStatusCode().is2xxSuccessful()
+                    || response.getBody() == null) {
+
+                log.error("Resposta inválida do serviço de ML");
+                return null;
+            }
+
+            return response.getBody();
+
+        } catch (RestClientException ex) {
+            // Não propaga exceção para não quebrar o backend
+            log.error("Erro ao chamar serviço de ML", ex);
+            return null;
         }
+    }
 
-        // Método para chamar o serviço de ML e obter a previsão de sentimento
-        public MlServiceResponse predict(String text) {
-
-                Objects.requireNonNull(text, "Texto não pode ser nulo");
-
-                Map<String, String> request = Map.of("text", text);
-                // Log de chamada ao serviço de ML para monitoramento (podendo ser removido
-                // posteriormente)
-                log.info("Chamando serviço de ML em {}", mlServiceUrl);
-                try {
-                        ResponseEntity<MlServiceResponse> response = restTemplate.postForEntity(
-                                        mlServiceUrl,
-                                        request,
-                                        MlServiceResponse.class);
-
-                        if (!response.getStatusCode().is2xxSuccessful()
-                                        || response.getBody() == null) {
-
-                                throw new IllegalStateException(
-                                                "Resposta inválida do serviço de ML");
-                        }
-
-                        return response.getBody();
-                        // Tratamento de exceções na chamada ao serviço de ML
-                } catch (RestClientException ex) {
-                        log.error("Erro ao chamar serviço de ML", ex);
-                        throw new IllegalStateException(
-                                        "Serviço de análise de sentimento indisponível");
-                }
+    /**
+     * Verifica se o serviço de ML está acessível.
+     * Pode ser usado futuramente em health checks.
+     */
+    public boolean healthCheck() {
+        try {
+            restTemplate.getForObject(
+                    mlServiceUrl.replace("/predict", "/"),
+                    String.class);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-
-        // Método para verificar a saúde do serviço de ML
-        public void healthCheck() {
-                restTemplate.getForObject(
-                                mlServiceUrl.replace("/predict", "/"),
-                                String.class);
-        }
-
+    }
 }

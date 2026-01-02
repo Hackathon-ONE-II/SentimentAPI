@@ -12,7 +12,8 @@ import java.util.Objects;
 
 @Service
 public class SentimentService {
-// Log para monitoramento e depuração (podendo ser removido posteriormente)
+
+    // Log para monitoramento e depuração
     private static final Logger log =
             LoggerFactory.getLogger(SentimentService.class);
 
@@ -26,28 +27,40 @@ public class SentimentService {
         this.mlServiceClient = mlServiceClient;
         this.statsService = statsService;
     }
+
+    /**
+     * Realiza a análise de sentimento de um texto.
+     * Caso o serviço de ML esteja indisponível,
+     * aplica fallback sem quebrar o backend.
+     */
     public SentimentResponse analisar(SentimentRequest request) {
-// Validação básica do request
+
+        // Validação básica do request
         Objects.requireNonNull(request, "SentimentRequest não pode ser nulo");
 
+        // Chamada ao serviço de Machine Learning
         MlServiceResponse mlResponse =
                 mlServiceClient.predict(request.text());
-// Verificação da resposta do serviço de ML
+
+        // 🔹 Fallback em caso de falha do serviço de ML
         if (mlResponse == null) {
-            throw new IllegalStateException(
-                    "Resposta nula do serviço de ML"
-            );
+            log.warn("Serviço de ML indisponível. Aplicando fallback.");
+
+            // Retorno padrão quando ML falha
+            return new SentimentResponse("Indefinido", 0.0);
         }
-// Extração dos dados relevantes da resposta
+
+        // Extração dos dados da resposta do ML
         String previsao = mlResponse.previsao();
         double probabilidade = mlResponse.probabilidade();
-// Registro da estatística de sentimento e tratamento de exceções
+
+        // Registro de estatísticas (não pode quebrar o fluxo)
         try {
             statsService.registrar(previsao);
         } catch (Exception e) {
             log.warn("Falha ao registrar estatística de sentimento", e);
         }
-// Log de conclusão da análise para monitoramento (podendo ser removido posteriormente)
+
         log.info("Análise concluída com sucesso. Sentimento: {}", previsao);
 
         return new SentimentResponse(previsao, probabilidade);
