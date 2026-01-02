@@ -8,9 +8,6 @@ RUN apt-get update && apt-get install -y gcc build-essential && rm -rf /var/lib/
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Baixa o modelo do Spacy para português
-RUN python -m spacy download pt_core_news_sm
-
 # Copia o código da aplicação
 COPY app ./app
 

@@ -2,6 +2,7 @@ fastapi
 uvicorn
 pydantic
 nltk
-spacy
-unidecode
 pandas
+scikit-learn
+joblib
+emoji

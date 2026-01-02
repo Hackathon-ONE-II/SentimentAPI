@@ -1,37 +1,63 @@
-import random
+import os
+import joblib
 from app.core.preprocessing import preprocessor
-
-# Por enquanto, o modelo é um mock. Assim que tivermos o modelo treinado, ele será carregado aqui.
 
 class SentimentModel:
     def __init__(self):
-        # AQUI carregariamos o modelo real
-        pass
+        self.pipeline = None
+        self.load_model()
+    
+    def load_model(self):
+        try:
+            # Caminho relativo ao arquivo (copiado para dentro do app)
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            # Subindo um nível pois services está em app/services
+            model_path = os.path.join(base_dir, '..', 'baseline_model_tfidf_lr.pkl')
+            
+            if os.path.exists(model_path):
+                self.pipeline = joblib.load(model_path)
+                print(f"Modelo carregado de: {model_path}")
+            else:
+                print(f"AVISO: Modelo não encontrado em {model_path}")
+        except Exception as e:
+            print(f"Erro ao carregar modelo: {e}")
 
     def predict(self, raw_text: str):
         """
         Recebe texto bruto, processa e retorna predição e probabilidade.
         """
-        # Pré-processamento (Limpeza + NLP)
-        # Garante que o texto chegue ao modelo limpo como no treino
+        # Pré-processamento
         processed_text = preprocessor.processar(raw_text)
         
-        # Simulação de resposta enquanto não há modelo treinado
-        sentimentos = ["Positivo", "Negativo", "Neutro"]
+        if not self.pipeline:
+            # Fallback se o modelo não carregou
+            return {
+                "previsao": "Erro (Modelo não carregado)",
+                "probabilidade": 0.0,
+                "texto_processado": processed_text
+            }
 
-        if "bom" in processed_text or "otim" in processed_text:
-             predicao = "Positivo"
-             probabilidade = 0.95
-        elif "ruim" in processed_text or "pessim" in processed_text:
-             predicao = "Negativo"
-             probabilidade = 0.95
-        else:
-             predicao = random.choice(sentimentos)
-             probabilidade = round(random.uniform(0.6, 0.99), 2)
+        # Predição
+        # O modelo espera uma lista/iterable
+        prediction = self.pipeline.predict([processed_text])[0]
+        try:
+            # Pega probabilidade da classe predita
+            probs = self.pipeline.predict_proba([processed_text])[0]
+            # O modelo retorna classes [0, 1] ou similar.
+            # Assumindo 0=Negativo, 1=Positivo (conforme notebook)
+            # A classe da predição é o índice ou valor.
+            # Se prediction for 1, probabilidade é probs[1]
+            probabilidade = probs[int(prediction)]
+            
+        except AttributeError:
+            # Caso o modelo não suporte predict_proba
+            probabilidade = 1.0
 
+        sentimento = "Positivo" if prediction == 1 else "Negativo"
+        
         return {
-            "previsao": predicao,
-            "probabilidade": probabilidade,
+            "previsao": sentimento,
+            "probabilidade": round(float(probabilidade), 4),
             "texto_processado": processed_text
         }
 
