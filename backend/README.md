@@ -163,7 +163,7 @@ docker compose up --build
 Utilizando **Insomnia** ou **Postman**:
 
 **POST**
-`http://localhost:8080/sentiment`
+`http://localhost:8080/sentiment/analyze`
 
 **Body (JSON):**
 
