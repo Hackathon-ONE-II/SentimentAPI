@@ -2,6 +2,8 @@ package com.hackathon.SentimentAPI.controller;
 
 import com.hackathon.SentimentAPI.dto.SentimentStatsResponse;
 import com.hackathon.SentimentAPI.service.SentimentStatsService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +41,8 @@ public class StatsController {
      * Ideal para dashboards e persistência futura.
      */
     @GetMapping("/v2")
-    public SentimentStatsResponse statsV2() {
-        return statsService.getStatsDTO();
-    }
+public ResponseEntity<SentimentStatsResponse> statsV2() {
+    return ResponseEntity.ok(statsService.getStatsDTO());
+}
+
 }
