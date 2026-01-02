@@ -3,67 +3,46 @@ package com.hackathon.SentimentAPI.domain;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-// Entidade responsável por armazenar métricas agregadas de análises de sentimento.
-// Esta tabela será usada futuramente para monitoramento, dashboards e auditoria.
 @Entity
 @Table(name = "sentiment_stats")
 public class SentimentStatsEntity {
 
-    /**
-     * Identificador único do registro.
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * Total de análises realizadas.
-     */
-    @Column(nullable = false)
     private int total;
-
-    /**
-     * Total de sentimentos positivos.
-     */
-    @Column(nullable = false)
     private int positivos;
-
-    /**
-     * Total de sentimentos negativos.
-     */
-    @Column(nullable = false)
     private int negativos;
-
-    /**
-     * Total de sentimentos neutros.
-     */
-    @Column(nullable = false)
     private int neutros;
 
-    /**
-     * Total de análises realizadas com sucesso (ML respondeu).
-     */
-    @Column(nullable = false)
     private int success;
-
-    /**
-     * Total de análises em fallback (ML indisponível).
-     */
-    @Column(nullable = false)
     private int fallback;
 
-    /**
-     * Data da última atualização das métricas.
-     */
-    @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
-    /* ===== Construtor padrão exigido pelo JPA ===== */
-    public SentimentStatsEntity() {
+    // JPA exige construtor vazio
+    protected SentimentStatsEntity() {}
+
+    public SentimentStatsEntity(
+            int total,
+            int positivos,
+            int negativos,
+            int neutros,
+            int success,
+            int fallback,
+            LocalDateTime lastUpdate
+    ) {
+        this.total = total;
+        this.positivos = positivos;
+        this.negativos = negativos;
+        this.neutros = neutros;
+        this.success = success;
+        this.fallback = fallback;
+        this.lastUpdate = lastUpdate;
     }
 
-    /* ===== Getters e Setters ===== */
-
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -124,7 +103,3 @@ public class SentimentStatsEntity {
         this.lastUpdate = lastUpdate;
     }
 }
-
-
-
-

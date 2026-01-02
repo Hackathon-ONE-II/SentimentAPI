@@ -8,10 +8,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-/**
- * Serviço responsável por gerenciar métricas
- * de sentimento com persistência em banco.
- */
 @Service
 public class SentimentStatsService {
 
@@ -22,74 +18,76 @@ public class SentimentStatsService {
     }
 
     /**
-     * Recupera o registro único de métricas.
-     * Caso não exista, cria um novo.
+     * Obtém (ou cria) o registro único de métricas.
      */
     private SentimentStatsEntity getStatsEntity() {
         return repository.findAll()
                 .stream()
                 .findFirst()
-                .orElseGet(() -> repository.save(new SentimentStatsEntity()));
+                .orElseGet(() ->
+                        repository.save(
+                                new SentimentStatsEntity(
+                                        0, 0, 0, 0,
+                                        0, 0,
+                                        LocalDateTime.now()
+                                )
+                        )
+                );
     }
 
-    /**
-     * Método mantido para compatibilidade
-     * com o controller antigo.
-     */
+    // ENDPOINT LEGADO
     public Map<String, Integer> getStats() {
-        SentimentStatsEntity stats = getStatsEntity();
+        SentimentStatsEntity e = getStatsEntity();
 
         return Map.of(
-                "total", stats.getTotal(),
-                "positivo", stats.getPositivos(),
-                "negativo", stats.getNegativos(),
-                "neutro", stats.getNeutros()
+                "total", e.getTotal(),
+                "positivo", e.getPositivos(),
+                "negativo", e.getNegativos(),
+                "neutro", e.getNeutros()
         );
     }
 
-    /**
-     * Retorna métricas completas via DTO.
-     */
+    // ENDPOINT NOVO
     public SentimentStatsResponse getStatsDTO() {
-        SentimentStatsEntity stats = getStatsEntity();
+        SentimentStatsEntity e = getStatsEntity();
 
         return new SentimentStatsResponse(
-                stats.getTotal(),
-                stats.getPositivos(),
-                stats.getNegativos(),
-                stats.getNeutros(),
-                stats.getSuccess(),
-                stats.getFallback(),
-                stats.getLastUpdate()
+                e.getTotal(),
+                e.getPositivos(),
+                e.getNegativos(),
+                e.getNeutros(),
+                e.getSuccess(),
+                e.getFallback(),
+                e.getLastUpdate()
         );
     }
 
     /**
-     * Registra uma nova análise de sentimento.
+     * Registro persistente das métricas.
      */
     public synchronized void registrar(
             String previsao,
             boolean isFallback
     ) {
-        SentimentStatsEntity stats = getStatsEntity();
+        SentimentStatsEntity e = getStatsEntity();
 
-        stats.setTotal(stats.getTotal() + 1);
-        stats.setLastUpdate(LocalDateTime.now());
+        e.setTotal(e.getTotal() + 1);
+        e.setLastUpdate(LocalDateTime.now());
 
         if (isFallback) {
-            stats.setFallback(stats.getFallback() + 1);
+            e.setFallback(e.getFallback() + 1);
         } else {
-            stats.setSuccess(stats.getSuccess() + 1);
+            e.setSuccess(e.getSuccess() + 1);
         }
 
         if ("Positivo".equalsIgnoreCase(previsao)) {
-            stats.setPositivos(stats.getPositivos() + 1);
+            e.setPositivos(e.getPositivos() + 1);
         } else if ("Negativo".equalsIgnoreCase(previsao)) {
-            stats.setNegativos(stats.getNegativos() + 1);
+            e.setNegativos(e.getNegativos() + 1);
         } else {
-            stats.setNeutros(stats.getNeutros() + 1);
+            e.setNeutros(e.getNeutros() + 1);
         }
 
-        repository.save(stats);
+        repository.save(e);
     }
 }

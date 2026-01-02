@@ -1,14 +1,53 @@
 services:
-  backend:
-    build: ./backend
-    ports:
-      - "8080:8080"
+  postgres:
+    image: postgres:15
+    container_name: sentiment-postgres
     environment:
-      - ML_SERVICE_URL=http://ml-service:8000/predict
-    depends_on:
-      - ml-service
+      POSTGRES_DB: sentimentdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sentimentdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sentiment-net
 
   ml-service:
     build: ./ml-service
+    container_name: sentiment-ml
     ports:
       - "8000:8000"
+    networks:
+      - sentiment-net
+
+  backend:
+    build: ./backend
+    container_name: sentiment-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sentimentdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      ML_SERVICE_URL: http://ml-service:8000/predict
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ml-service:
+        condition: service_started
+    networks:
+      - sentiment-net
+
+volumes:
+  postgres_data:
+
+networks:
+  sentiment-net:
+    driver: bridge
