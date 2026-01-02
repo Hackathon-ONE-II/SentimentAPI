@@ -1,68 +1,111 @@
 import re
-import spacy
 import nltk
-from unidecode import unidecode
 from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+import emoji
+
+# Configuração inicial (garante recursos do NLTK)
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt', quiet=True)
+
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords', quiet=True)
 
 class TextPreprocessor:
     def __init__(self):
-        # Tenta carregar o modelo spacy, precisa estar instalado no Docker
-        try:
-            self.nlp = spacy.load("pt_core_news_sm")
-        except OSError:
-            print("AVISO: Modelo spacy 'pt_core_news_sm' não encontrado.")
-            self.nlp = None
-
-        # Garante que as stopwords estejam disponíveis
-        try:
-            nltk.data.find('corpora/stopwords')
-        except LookupError:
-            nltk.download('stopwords', quiet=True)
-            
         self.stop_words = set(stopwords.words('portuguese'))
-        # Palavras que não devem ser removidas pois alteram sentido
-        self.stop_words.discard('nao')
-        self.stop_words.discard('não')
-        self.stop_words.discard('nunca')
+        # Remover palavras de negação das stopwords
+        self.negation_terms = {'não', 'nao', 'nem', 'nunca', 'jamais', 'nada', 'ninguém', 'ninguem'}
+        self.stop_words = self.stop_words - self.negation_terms
 
-    def limpar_texto(self, texto: str) -> str:
-        """
-        Realiza limpeza básica: lowercase, remoção de acentos, urls e caracteres especiais.
-        """
-        if not texto:
+        # Mapa de gírias
+        self.slang_map = {
+            'vc': 'você', 'vcs': 'vocês', 'tb': 'também', 'tbm': 'também',
+            'pq': 'porque', 'q': 'que', 'k': '', 'kk': '', 'kkk': '', 'kkkk': '', 'rs': '',
+            'mto': 'muito', 'mt': 'muito', 'ta': 'está', 'eh': 'é', 'hj': 'hoje',
+            'td': 'tudo', 'blz': 'beleza', 'flw': 'falou', 'abs': 'abraços',
+            'tmj': 'tamo junto', 'n': 'não', 's': 'sim', 'obg': 'obrigado',
+            'top': 'ótimo', 'show': 'ótimo'
+        }
+
+    def normalize_slang(self, text: str) -> str:
+        words = text.split()
+        normalized_words = [self.slang_map.get(word, word) for word in words]
+        return " ".join(normalized_words)
+
+    def clean_text_advanced(self, text: str) -> str:
+        if not isinstance(text, str):
             return ""
         
-        # Converte para string caso venha float/nulo
-        texto = str(texto).lower()
-        texto = unidecode(texto)
+        # Tratar Emojis
+        text = emoji.demojize(text, language='pt')
         
-        # Remove URLs e menções
-        texto = re.sub(r'http\S+|www\S+|@\S+', '', texto)
+        # Lowercase
+        text = text.lower()
         
-        # Mantém apenas letras e espaços
-        texto = re.sub(r'[^a-z\s]', '', texto)
+        # Hifens por espaço
+        text = text.replace('-', ' ')
         
-        return texto
+        # Normalizar Gírias
+        text = self.normalize_slang(text)
+        
+        # Regex mantendo pontuação relevante (! ? : _)
+        text = re.sub(r'[^a-zA-Z0-9\u00C0-\u00FF\s!\?:_]', '', text)
+        
+        # Espaçar pontuação
+        text = re.sub(r'([!\?])', r' \1 ', text)
+        
+        # Remover espaços extras
+        text = re.sub(r'\s+', ' ', text).strip()
+        
+        return text
+
+    def mark_negation(self, text_tokens: list) -> list:
+        punctuation = {'!', '?', '.', ',', ':', ';', '...'}
+        result = []
+        neg_state = False
+        
+        for word in text_tokens:
+            if word in punctuation:
+                neg_state = False
+                result.append(word)
+                continue
+            
+            if word in self.negation_terms:
+                neg_state = True
+                result.append(word)
+                continue
+            
+            if neg_state:
+                result.append(word + '_NEG')
+            else:
+                result.append(word)
+                
+        return result
 
     def processar(self, texto: str) -> str:
         """
-        Pipeline completo: limpar -> tokenizar -> remover stopwords -> lematizar
+        Pipeline completo: limpar -> tokenizar -> remover stopwords -> marcação de negação
         """
-        texto_limpo = self.limpar_texto(texto)
+        cleaned = self.clean_text_advanced(texto)
         
-        if not self.nlp:
-            return texto_limpo
+        # Tokenização 
+        tokens = word_tokenize(cleaned, language='portuguese')
+        
+        # Remover stopwords
+        tokens = [t for t in tokens if t not in self.stop_words]
+        
+        # Marcação de Negação
+        tokens = self.mark_negation(tokens)
+        
+        # Filtrar tokens curtos (mas manter ! ?)
+        final_tokens = [t for t in tokens if len(t) > 1 or t in ['!', '?']]
+        
+        return " ".join(final_tokens)
 
-        doc = self.nlp(texto_limpo)
-        
-        tokens = [
-            token.lemma_
-            for token in doc
-            if token.text not in self.stop_words
-            and len(token.text) > 2 # Remove tokens muito curtos
-        ]
-        
-        return " ".join(tokens)
-
-# Instância global para ser importada
+# Instância global
 preprocessor = TextPreprocessor()
