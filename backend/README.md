@@ -261,7 +261,7 @@ O campo `text` é rigorosamente validado:
 | Validação | Regra | Mensagem de Erro |
 |-----------|-------|------------------|
 | **Obrigatoriedade** | `@NotBlank` | "Texto não pode ser vazio" |
-| **Tamanho mínimo** | `@Size(min = 5)` | "Texto deve ter pelo menos 5 caracteres" |
+| **Tamanho mínimo** | `@Size(min = 3)` | "Texto deve ter pelo menos 3 caracteres" |
 | **Tamanho máximo** | `@Size(max = 1300)` | "Texto deve ter no máximo 1300 caracteres" |
 | **Conteúdo válido** | `@Pattern(regexp = ".*[a-zA-Z].*")` | "O texto deve conter pelo menos uma palavra" |
 | **Auto-trim** | `text = text.trim()` | Remove espaços extras automaticamente |
