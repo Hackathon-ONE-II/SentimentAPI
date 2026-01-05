@@ -5,10 +5,40 @@ services:
       - "8080:8080"
     environment:
       - ML_SERVICE_URL=http://ml-service:8000/predict
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/${POSTGRES_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SERVER.ERROR.INCLUDE-STACKTRACE=never
+      - API_SECURITY_TOKEN_SECRET=${API_SECURITY_TOKEN_SECRET}
     depends_on:
+      - db
       - ml-service
+    networks:
+      - springboot-postgres-network
 
   ml-service:
     build: ./ml-service
     ports:
       - "8000:8000"
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+        - POSTGRES_USER=${POSTGRES_USER}
+        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5432"
+    volumes:
+      - db-data:/var/lib/postgresql
+    networks:
+      - springboot-postgres-network
+
+volumes:
+  db-data:
+networks:
+  springboot-postgres-network:
