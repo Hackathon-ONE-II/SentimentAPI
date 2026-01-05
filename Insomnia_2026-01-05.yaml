@@ -1,0 +1,153 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: SentimentAPI
+meta:
+  id: wrk_b0b41775ab8f444283056a4d80d6a3e7
+  created: 1767049349636
+  modified: 1767651878663
+  description: ""
+collection:
+  - url: http://localhost:8080/sentiment/analyze
+    name: Backend
+    meta:
+      id: req_7b2deb2a99cd46429eb7b586d7c067ef
+      created: 1767049349647
+      modified: 1767651797513
+      isPrivate: false
+      description: ""
+      sortKey: -1767219788051
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "text": "Gostei muito do produto"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/stats
+    name: Stats
+    meta:
+      id: req_b46f1f5195514ae3a18f8b54db4b05e7
+      created: 1767215898079
+      modified: 1767365063378
+      isPrivate: false
+      description: ""
+      sortKey: -1767292351339.5
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8000/predict
+    name: ML Service
+    meta:
+      id: req_a5a540b0fcd647fb8b544b949ea7dce8
+      created: 1767219787951
+      modified: 1767650774260
+      isPrivate: false
+      description: ""
+      sortKey: -1767219787951
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "text": "Otimo produto"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/health
+    name: APP ok
+    meta:
+      id: req_3eb311968c9d478db67127692a090010
+      created: 1767364914628
+      modified: 1767374332843
+      isPrivate: false
+      description: ""
+      sortKey: -1767364914628
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/health/ml
+    name: ML ok
+    meta:
+      id: req_c77aa270c2be4dd79926add2c8d8d805
+      created: 1767373880118
+      modified: 1767374347764
+      isPrivate: false
+      description: ""
+      sortKey: -1767373880118
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_6528448742b7e8914e946230a2adc2a48ab2e0c9
+    created: 1767049349639
+    modified: 1767049349639
+environments:
+  name: Base Environment
+  meta:
+    id: env_6528448742b7e8914e946230a2adc2a48ab2e0c9
+    created: 1767049349638
+    modified: 1767049349638
+    isPrivate: false
