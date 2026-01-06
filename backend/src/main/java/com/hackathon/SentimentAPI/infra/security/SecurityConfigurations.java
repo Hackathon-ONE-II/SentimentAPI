@@ -14,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Classe de configuracoes responsável pelas informações de segurança do Spring Security.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
@@ -21,6 +24,7 @@ public class SecurityConfigurations {
     @Autowired
     private SecurityFilter securityFilter;
 
+    // Responsavel pela autenticação e autorização de endpoints
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -35,11 +39,14 @@ public class SecurityConfigurations {
                 .build();
     }
 
+    // Metodo necessário para injetar e usar o AuthenticationManager no controller de login,
+    // permitindo validar as credenciais do usuário antes de gerar o JWT
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
+    // Permite ao Spring identificar que é usado o formato BCrypt para criptografar senha no banco de dados
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

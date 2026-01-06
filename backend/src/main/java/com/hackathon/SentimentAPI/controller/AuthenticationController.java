@@ -1,7 +1,7 @@
 package com.hackathon.SentimentAPI.controller;
 
 import com.hackathon.SentimentAPI.domain.User;
-import com.hackathon.SentimentAPI.dto.TokenJWTRequest;
+import com.hackathon.SentimentAPI.dto.TokenJWTResponse;
 import com.hackathon.SentimentAPI.dto.AuthenticationRequest;
 import com.hackathon.SentimentAPI.infra.security.TokenService;
 import jakarta.validation.Valid;
@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 
+/**
+ * Controller responsavel pela autenticacao e autorizacao do login
+ */
 @RestController
 @RequestMapping("/login")
 public class AuthenticationController {
@@ -33,7 +36,7 @@ public class AuthenticationController {
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(request.username(), request.password());
             Authentication authentication = manager.authenticate(authenticationToken);
             var tokenJWT = tokenService.getToken((User) Objects.requireNonNull(authentication.getPrincipal()));
-            return ResponseEntity.ok(new TokenJWTRequest(tokenJWT));
+            return ResponseEntity.ok(new TokenJWTResponse(tokenJWT));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());

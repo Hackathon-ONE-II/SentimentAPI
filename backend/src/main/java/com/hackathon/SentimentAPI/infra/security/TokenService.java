@@ -18,6 +18,7 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
+    // Responsavel por gerar o Token JWT
     public String getToken(User user) {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
@@ -31,6 +32,7 @@ public class TokenService {
         }
     }
 
+    // Responsavel por receber o token verificar se está válido e devolver o usuário
     public String getSubject(String tokenJWT) {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
@@ -44,6 +46,7 @@ public class TokenService {
         }
     }
 
+    // Responsavel por gerar a data de validade do Token JWT
     private Instant dateExpiration() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }

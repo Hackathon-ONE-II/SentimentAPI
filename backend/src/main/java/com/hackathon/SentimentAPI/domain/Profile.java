@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Definicao de perfil para os acessos de usuarios
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
