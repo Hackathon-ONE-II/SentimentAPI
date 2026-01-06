@@ -7,8 +7,8 @@ import jakarta.validation.constraints.Size;
 
 public record SentimentRequest(
         // validação para o campo text min e max size
-        @NotBlank(message = "{sentiment.text.notBlank}")
-        @Size(min = 5, max = 1300, message = "{sentiment.text.size}")
+        @NotBlank(message = "Texto não pode ser vazio")
+        @Size(min = 5, max = 1300, message = "Texto deve ter pelo menos 3 caracteres e no máximo 1300 caracteres")
         @Pattern(
                 regexp = ".*[a-zA-Z].*",
                 message = "O texto deve conter pelo menos uma palavra"
