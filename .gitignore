@@ -1,2 +1,7 @@
 .DS_Store
 __pycache__/
+
+# Chatbot
+chatbot/.wwebjs_auth/
+chatbot/.wwebjs_cache/
+chatbot/node_modules/
