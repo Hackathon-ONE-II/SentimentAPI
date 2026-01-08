@@ -23,7 +23,7 @@ export default function Home() {
     if (login === usuario.login && senha === usuario.senha) {
       router.push("/tela-principal");
     } else {
-      setErro("Login ou senha inválidos");
+      setErro("Login ou senha inválido");
     }
   }
 
