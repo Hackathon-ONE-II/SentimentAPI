@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sentimento Api",
+  title: "Analise de Sentimento",
   description: "Sistema de análise de sentimento de feedbacks.",
 };
 

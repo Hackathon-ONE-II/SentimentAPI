@@ -1,14 +1,38 @@
+import CardPrincipal from "@/components/CardPrincipal";
+import Footer from "@/components/Footer";
+import ReferenciaTextual from "@/components/ReferenciaTextual";
+import Resultado from "@/components/Resultado";
+import Subtitulo from "@/components/Subtitulo";
+import TextoPrincipal from "@/components/TextoPrincipal";
+import Titulo from "@/components/Titulo";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-          <h1 className="max-w-xs text-3xl font-semibold leading-50 tracking-tight text-black dark:text-zinc-50n m-1">
-            Entenda o sentimento
-          </h1>
-          <h1 className="max-w-xs text-3xl font-semibold leading-50 bg-linear-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
-            dos seus feedbacks
-          </h1>
+    <div className="flex min-h-screen items-center justify-center flex-col">
+      <header className="fixed top-0 left-0 right-0 w-full z-50 shadow-md hover:shadow-lg transition-shadow duration-300 pt-5">
+        <Titulo />
+      </header>
+      <main className="relative container mx-auto px-4 py-8 space-y-12 mt-20">
+        <TextoPrincipal />
+        <Subtitulo />
+        
+        <div className="flex flex-wrap items-center justify-center gap-6 pt-4 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+          <ReferenciaTextual />
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-6 pt-4 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+          <div className="w-200 flex-col items-center gap-2 mb-10">
+            <CardPrincipal />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-6 pt-4 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+          <div className="w-200 flex-col items-center gap-2 mb-10 ml-27">
+            <Resultado />
+          </div>
+        </div>
+        
+        <Footer />
       </main>
     </div>
   );
