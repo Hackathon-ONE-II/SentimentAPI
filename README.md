@@ -1,4 +1,4 @@
-# 🧠 SentimentAPI - Hackathon Acadêmico
+# 🧠 SentimentAPI
 
 Bem-vindo ao **SentimentAPI**, uma solução completa e robusta de análise de sentimentos desenvolvida para o Hackathon Acadêmico. 
 
