@@ -1,11 +1,12 @@
 // rfc: Cria um componente funcional com export nomeado
 
-export default function CardPrincipal() {
+export default function CardPrincipal({ onTextoChange }: { onTextoChange: (texto: string) => void }) {
   return (
     <>
       <div className="w-full animate-slide-up">
         <textarea 
           placeholder="Digite aqui..." 
+          onChange={(e) => onTextoChange(e.target.value)}
           className="w-full h-80 px-4 py-3 bg-gray-800 text-white rounded border border-gray-600 focus:outline-none focus:border-blue-500 transition resize-none placeholder-shown:text-sm"
         />
       </div>

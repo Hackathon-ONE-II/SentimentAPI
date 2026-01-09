@@ -6,7 +6,7 @@ const respostaApi = {
   "probabilidade": 0.95
 };
 
-export default function Resultado() {
+export default function Resultado({ textoAnalisado }: { textoAnalisado: string }) {
 
   return (
     <div className="w-full max-w-2xl p-8 bg-linear-to-br from-slate-900 to-slate-800 border-2 border-green-500 rounded-lg">
@@ -32,7 +32,7 @@ export default function Resultado() {
       <div className="mb-8">
         <h3 className="text-gray-400 text-sm mb-3">Texto Analisado</h3>
         <p className="text-gray-300 italic bg-gray-800/50 p-4 rounded border border-gray-700">
-          {respostaApi.texto_processado}
+          {textoAnalisado}
         </p>
       </div>
     </div>
