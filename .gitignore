@@ -3,3 +3,7 @@ __pycache__/
 .wwebjs_auth/
 .wwebjs_cache/
 node_modules/
+.idea/
+.vscode/
+*.swp
+*.iml
