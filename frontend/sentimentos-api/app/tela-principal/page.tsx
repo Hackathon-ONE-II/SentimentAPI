@@ -26,7 +26,7 @@ export default function TelaPrincipal() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-6 pt-4 animate-slide-up" style={{ animationDelay: '0.3s' }}>
-          <div className="w-200 flex-col items-center gap-2 mb-10">
+          <div className="w-180 flex-col items-center gap-2 mb-10">
             <CardPrincipal onTextoChange={setTextoAnalisado} />
           </div>
         </div>
