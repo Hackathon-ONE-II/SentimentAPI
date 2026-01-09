@@ -24,3 +24,32 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Responsividade específica para telas pequenas (<= 390px) */
+@media (max-width: 390px) {
+  header {
+    padding-top: 0.5rem;
+  }
+
+  main {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  /* Garantir que os wrappers ocupem largura total em telas pequenas */
+  .card-wrapper,
+  .result-wrapper {
+    width: 100% !important;
+    max-width: 360px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  /* Ajustes de tamanho de fonte para legibilidade */
+  header h1,
+  .text-lg {
+    font-size: 1rem !important;
+  }
+}
