@@ -20,6 +20,7 @@ def predict_sentiment(data: InputText):
         "previsao": result["previsao"],
         "probabilidade": result["probabilidade"],
         "mensagem_processada": "Texto analisado com sucesso.",
+        "principais_palavras": result.get("principais_palavras", []),
         "debug_info": {
             "texto_original": data.text,
             "texto_limpo": result["texto_processado"]
