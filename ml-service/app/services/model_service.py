@@ -12,7 +12,7 @@ class SentimentModel:
             # Caminho relativo ao arquivo (copiado para dentro do app)
             base_dir = os.path.dirname(os.path.abspath(__file__))
             # Subindo um nível pois services está em app/services
-            model_path = os.path.join(base_dir, '..', 'production_model.pkl')
+            model_path = os.path.join(base_dir, '..', 'models', 'production_model.pkl')
             
             if os.path.exists(model_path):
                 self.pipeline = joblib.load(model_path)
