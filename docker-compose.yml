@@ -11,7 +11,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d sentimentdb"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d sentimentdb" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -45,8 +45,22 @@ services:
     networks:
       - sentiment-net
 
+  frontend:
+    build: ./frontend/sentimentos-api
+    container_name: sentiment-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      # URL da API para chamadas Client-Side (navegador do usuário -> backend)
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+    depends_on:
+      - backend
+    networks:
+      - sentiment-net
+
 volumes:
   postgres_data:
+
 
 networks:
   sentiment-net:
