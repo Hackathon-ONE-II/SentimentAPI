@@ -1,0 +1,7 @@
+# Dockerignore
+node_modules
+.next
+.git
+.DS_Store
+*.log
+README.md
