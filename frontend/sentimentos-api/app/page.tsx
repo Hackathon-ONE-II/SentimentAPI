@@ -43,23 +43,29 @@ export default function Home() {
     carregarUsuario();
   }, []);
 
-  function handleLogin() {
+  async function handleLogin() {
     setErro("");
 
-    if (loading) {
-      setErro("Aguarde, carregando dados...");
-      return;
-    }
+    try {
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: login,
+          password: senha,
+        }),
+      });
 
-    if (!usuarioApi) {
-      setErro("Usuário não encontrado");
-      return;
-    }
-
-    if (login === usuarioApi.username && senha === usuarioApi.password) {
-      router.push("/tela-principal");
-    } else {
-      setErro("Login ou senha inválido");
+      if (response.ok) {
+        router.push("/tela-principal");
+      } else {
+        setErro("Login ou senha inválido");
+      }
+    } catch (error) {
+      console.error("Erro ao conectar com a API:", error);
+      setErro("Erro ao conectar com o servidor");
     }
   }
 
