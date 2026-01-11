@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import Footer from "@/components/Footer";
 import Titulo from "@/components/Titulo";
 import TextoPrincipal from "@/components/TextoPrincipal";
 
-const usuario = {
-  login: "admin",
-  senha: "admin123",
-};
+interface UsuarioApi {
+  username: string;
+  password: string;
+}
 
 export default function Home() {
   const router = useRouter();
@@ -18,9 +18,45 @@ export default function Home() {
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
+  const [usuarioApi, setUsuarioApi] = useState<UsuarioApi | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function carregarUsuario() {
+      try {
+        const response = await fetch("http://localhost:8080/login");
+
+        if (!response.ok) {
+          throw new Error("Falha ao buscar usuário");
+        }
+
+        const data: UsuarioApi = await response.json();
+        setUsuarioApi(data);
+      } catch (error) {
+        console.error("Erro ao buscar usuário:", error);
+        setErro("Erro ao conectar com o servidor");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarUsuario();
+  }, []);
 
   function handleLogin() {
-    if (login === usuario.login && senha === usuario.senha) {
+    setErro("");
+
+    if (loading) {
+      setErro("Aguarde, carregando dados...");
+      return;
+    }
+
+    if (!usuarioApi) {
+      setErro("Usuário não encontrado");
+      return;
+    }
+
+    if (login === usuarioApi.username && senha === usuarioApi.password) {
       router.push("/tela-principal");
     } else {
       setErro("Login ou senha inválido");
