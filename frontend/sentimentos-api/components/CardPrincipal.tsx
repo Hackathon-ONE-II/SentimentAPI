@@ -34,7 +34,7 @@ export default function CardPrincipal({ onTextoChange, onAnalise }: CardPrincipa
 
     setCarregando(true);
     try {
-      const response = await fetch('http://localhost:8080/api/sentimento/analisar', {
+      const response = await fetch('http://localhost:8080/sentiment/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
