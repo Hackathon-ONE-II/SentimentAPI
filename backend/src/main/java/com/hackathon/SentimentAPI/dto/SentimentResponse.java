@@ -1,5 +1,7 @@
 package com.hackathon.SentimentAPI.dto;
 
+import java.util.List;
+
 import com.hackathon.SentimentAPI.domain.AnalysisStatus;
 
 
@@ -14,5 +16,8 @@ public record SentimentResponse(
         Double probabilidade,
 
         // Status da análise
-        AnalysisStatus status
+        AnalysisStatus status,
+
+        // Principais palavras que influenciaram a análise
+        List<String> principais_palavras
 ) {}

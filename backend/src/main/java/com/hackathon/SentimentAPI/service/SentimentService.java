@@ -1,15 +1,16 @@
 package com.hackathon.SentimentAPI.service;
 
+import java.util.Objects;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import com.hackathon.SentimentAPI.client.MlServiceClient;
 import com.hackathon.SentimentAPI.domain.AnalysisStatus;
 import com.hackathon.SentimentAPI.dto.MlServiceResponse;
 import com.hackathon.SentimentAPI.dto.SentimentRequest;
 import com.hackathon.SentimentAPI.dto.SentimentResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 public class SentimentService {
@@ -57,13 +58,15 @@ public class SentimentService {
             return new SentimentResponse(
                     "Indefinido",
                     0.0,
-                    AnalysisStatus.FALLBACK
+                    AnalysisStatus.FALLBACK,
+                    null
             );
         }
 
         // Extração segura dos dados retornados pelo ML
         String previsao = mlResponse.previsao();
         double probabilidade = mlResponse.probabilidade();
+        var principaisPalavras = mlResponse.principais_palavras();
 
         // Registro estatístico de sucesso
         try {
@@ -87,7 +90,8 @@ public class SentimentService {
         return new SentimentResponse(
                 previsao,
                 probabilidade,
-                AnalysisStatus.SUCCESS
+                AnalysisStatus.SUCCESS,
+                principaisPalavras
         );
     }
 }
