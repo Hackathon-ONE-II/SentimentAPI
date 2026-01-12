@@ -22,26 +22,63 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     private UserRepository repository;
 
-    // Filtro para autenticar o usuário automaticamente com base no Token JWT enviado no request
+    /**
+     * Filtro executado em TODAS as requisições da aplicação.
+     * Responsável por:
+     * 1. Ler o token JWT do header Authorization
+     * 2. Validar o token
+     * 3. Autenticar o usuário no Spring Security
+     */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        var tokenJWT = recoverToken(request);
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
+
+        // Recupera o token JWT da requisição
+        String tokenJWT = recoverToken(request);
+
+        // Se existir token
         if (tokenJWT != null) {
-            var emailUser = tokenService.getSubject(tokenJWT);
+
+            // Extrai o email (subject) de dentro do token
+            String emailUser = tokenService.getSubject(tokenJWT);
+
+            // Busca o usuário no banco de dados
             var user = repository.findByUsername(emailUser);
 
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            // Se o usuário existir
+            if (user != null) {
+
+                // Cria o objeto de autenticação do Spring Security
+                var authentication = new UsernamePasswordAuthenticationToken(
+                        user,
+                        null,
+                        user.getAuthorities()
+                );
+
+                // Salva o usuário autenticado no contexto de segurança
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
+
+        // Continua o fluxo normal da requisição
         filterChain.doFilter(request, response);
     }
 
-    // Retorna o Token JWT que foi enviado no request
+    /**
+     * Recupera o token JWT do header Authorization.
+     * Esperado:
+     * Authorization: Bearer <token>
+     */
     private String recoverToken(HttpServletRequest request) {
-        var authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null) {
+        String authorizationHeader = request.getHeader("Authorization");
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             return authorizationHeader.replace("Bearer ", "").trim();
         }
+
         return null;
     }
 }
