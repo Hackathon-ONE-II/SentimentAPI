@@ -17,33 +17,47 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 /**
- * Configuración de seguridad de la aplicación
+ * Classe responsável por TODA a configuração de segurança da aplicação.
+ * Aqui definimos:
+ * - CORS
+ * - Autenticação
+ * - Autorização
+ * - Política de sessão
+ * - Criptografia de senha
  */
 @Configuration
 public class SecurityConfigurations {
 
     /**
-     * 🔐 Configuración principal de seguridad
+     * 🔐 Configuração principal do Spring Security
+     * Define quais endpoints são públicos e quais são protegidos.
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // 👉 API REST no usa sesión
+            // 👉 API REST é stateless (não usa sessão)
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 
-            // 👉 Habilita CORS (IMPORTANTE)
+            // 👉 Habilita CORS usando a configuração definida abaixo
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-            // 👉 Deshabilita CSRF (para APIs)
+            // 👉 Desabilita CSRF (necessário para APIs REST)
             .csrf(csrf -> csrf.disable())
 
-            // 👉 Reglas de acesso
+            // 👉 Regras de acesso aos endpoints
             .authorizeHttpRequests(auth -> auth
+                // Endpoint de login (público)
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
+
+                // Endpoint temporário para gerar senha criptografada (público)
                 .requestMatchers(HttpMethod.GET, "/login/gerar-senha").permitAll()
+
+                // Health check (pode ser público)
                 .requestMatchers(HttpMethod.GET, "/health").permitAll()
+
+                // Qualquer outro endpoint exige autenticação
                 .anyRequest().authenticated()
             );
 
@@ -51,22 +65,23 @@ public class SecurityConfigurations {
     }
 
     /**
-     * 🌍 Configuração de CORS
+     * 🌍 Configuração global de CORS
+     * Permite que o frontend se comunique com o backend.
      */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        //  Frontend permitido
+        // 🔹 Origem permitida (frontend)
         config.setAllowedOrigins(List.of("http://localhost:3000"));
 
-        //  Métodos permitidos
+        // 🔹 Métodos HTTP permitidos
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        //  Headers permitidos
+        // 🔹 Headers permitidos (inclui Authorization para JWT)
         config.setAllowedHeaders(List.of("*"));
 
-        //  Permite enviar token JWT
+        // 🔹 Permite envio de credenciais (Authorization: Bearer TOKEN)
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -76,7 +91,10 @@ public class SecurityConfigurations {
     }
 
     /**
-     * 🔑 Encoder de contraseñas (BCrypt)
+     * 🔑 Bean responsável por criptografar senhas usando BCrypt.
+     * O mesmo encoder é usado para:
+     * - salvar senha no banco
+     * - validar senha no login
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -85,6 +103,7 @@ public class SecurityConfigurations {
 
     /**
      * 🔐 AuthenticationManager
+     * Responsável por validar usuário e senha no processo de login.
      */
     @Bean
     public AuthenticationManager authenticationManager(
