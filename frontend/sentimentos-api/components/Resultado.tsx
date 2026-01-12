@@ -6,6 +6,7 @@ interface ResultadoAnalise {
   probabilidade?: number;
   confidence?: number;
   texto_processado?: string;
+  principais_palavras?: string[];
   [key: string]: unknown;
 }
 
@@ -43,6 +44,25 @@ export default function Resultado({ textoAnalisado, resultadoApi }: ResultadoPro
           {textoAnalisado}
         </p>
       </div>
+
+      {resultadoApi.principais_palavras && resultadoApi.principais_palavras.length > 0 && (
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xl">🔑</span>
+            <span className="text-gray-400">Principais Palavras</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {resultadoApi.principais_palavras.map((palavra, index) => (
+              <span
+                key={index}
+                className="px-3 py-1 bg-blue-500/20 border border-blue-500 rounded-full text-blue-300 text-sm font-medium hover:bg-blue-500/30 transition"
+              >
+                {palavra}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
