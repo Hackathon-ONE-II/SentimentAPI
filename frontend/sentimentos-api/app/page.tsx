@@ -34,7 +34,7 @@ export default function Home() {
         setUsuarioApi(data);
       } catch (error) {
         console.error("Erro ao buscar usuário:", error);
-        setErro("Erro ao conectar com o servidor");
+        setErro("Erro ao conectar com o servidor.");
       } finally {
         setLoading(false);
       }
