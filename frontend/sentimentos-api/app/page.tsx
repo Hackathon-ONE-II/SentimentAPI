@@ -23,21 +23,7 @@ export default function Home() {
 
   useEffect(() => {
     async function carregarUsuario() {
-      try {
-        const response = await fetch("http://localhost:8080/login");
-
-        if (!response.ok) {
-          throw new Error("Falha ao buscar usuário");
-        }
-
-        const data: UsuarioApi = await response.json();
-        setUsuarioApi(data);
-      } catch (error) {
-        console.error("Erro ao buscar usuário:", error);
-        setErro("Erro ao conectar com o servidor.");
-      } finally {
-        setLoading(false);
-      }
+      setLoading(false);
     }
 
     carregarUsuario();
