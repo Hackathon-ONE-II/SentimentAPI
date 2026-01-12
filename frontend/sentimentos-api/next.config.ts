@@ -1,10 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* Forçar tema escuro */
-  experimental: {
-    darkMode: false,
-  },
+  /* config options here */
 };
 
 export default nextConfig;
