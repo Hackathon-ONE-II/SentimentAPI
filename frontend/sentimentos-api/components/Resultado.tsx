@@ -1,8 +1,17 @@
 'use client'
 
+interface ResultadoAnalise {
+  previsao?: string;
+  prediction?: string;
+  probabilidade?: number;
+  confidence?: number;
+  texto_processado?: string;
+  [key: string]: unknown;
+}
+
 interface ResultadoProps {
   textoAnalisado: string;
-  resultadoApi: any;
+  resultadoApi: ResultadoAnalise;
 }
 
 export default function Resultado({ textoAnalisado, resultadoApi }: ResultadoProps) {

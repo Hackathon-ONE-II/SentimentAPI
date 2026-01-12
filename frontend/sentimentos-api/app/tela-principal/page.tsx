@@ -9,9 +9,18 @@ import TextoPrincipal from "@/components/TextoPrincipal";
 import Titulo from "@/components/Titulo";
 import { useState } from "react";
 
+interface ResultadoAnalise {
+  previsao?: string;
+  prediction?: string;
+  probabilidade?: number;
+  confidence?: number;
+  texto_processado?: string;
+  [key: string]: unknown;
+}
+
 export default function TelaPrincipal() {
   const [textoAnalisado, setTextoAnalisado] = useState("");
-  const [resultadoApi, setResultadoApi] = useState(null);
+  const [resultadoApi, setResultadoApi] = useState<ResultadoAnalise | null>(null);
 
   return (
     <div className="flex min-h-screen items-center justify-center flex-col">

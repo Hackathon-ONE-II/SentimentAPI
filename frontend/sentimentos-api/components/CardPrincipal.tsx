@@ -2,9 +2,18 @@
 
 import { useState } from 'react';
 
+interface ResultadoAnalise {
+  previsao?: string;
+  prediction?: string;
+  probabilidade?: number;
+  confidence?: number;
+  texto_processado?: string;
+  [key: string]: unknown;
+}
+
 interface CardPrincipalProps {
   onTextoChange: (texto: string) => void;
-  onAnalise: (resultado: any) => void;
+  onAnalise: (resultado: ResultadoAnalise) => void;
 }
 
 export default function CardPrincipal({ onTextoChange, onAnalise }: CardPrincipalProps) {
@@ -34,14 +43,20 @@ export default function CardPrincipal({ onTextoChange, onAnalise }: CardPrincipa
       });
 
       if (!response.ok) {
-        throw new Error('Erro ao analisar o sentimento');
+        throw new Error(`Erro na API: ${response.status} ${response.statusText}`);
       }
 
       const resultado = await response.json();
       onAnalise(resultado);
     } catch (error) {
-      console.error('Erro:', error);
-      alert('Erro ao conectar com a API');
+      console.error('Erro completo:', error);
+      const mensagem = error instanceof Error ? error.message : String(error);
+      
+      if (mensagem.includes('Failed to fetch')) {
+        alert('Erro: Não conseguimos conectar ao servidor de análise.\n\nCertifique-se de que:\n1. O servidor em localhost:8000 está rodando\n2. A API está acessível');
+      } else {
+        alert(`Erro ao analisar: ${mensagem}`);
+      }
     } finally {
       setCarregando(false);
     }
