@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import Footer from "@/components/Footer";
-import Titulo from "@/components/Titulo";
 import TextoPrincipal from "@/components/TextoPrincipal";
+import Titulo from "@/components/Titulo";
 
 interface UsuarioApi {
   username: string;
@@ -18,16 +18,6 @@ export default function Home() {
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
-  const [usuarioApi, setUsuarioApi] = useState<UsuarioApi | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function carregarUsuario() {
-      setLoading(false);
-    }
-
-    carregarUsuario();
-  }, []);
 
   async function handleLogin() {
     setErro("");
