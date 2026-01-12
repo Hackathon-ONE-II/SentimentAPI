@@ -1,12 +1,11 @@
 'use client'
 
-const respostaApi = {
-  "texto_processado": "gostei do produto",
-  "previsao": "Positivo",
-  "probabilidade": 0.95
-};
+interface ResultadoProps {
+  textoAnalisado: string;
+  resultadoApi: any;
+}
 
-export default function Resultado({ textoAnalisado }: { textoAnalisado: string }) {
+export default function Resultado({ textoAnalisado, resultadoApi }: ResultadoProps) {
 
   return (
     <div className="w-full max-w-2xl p-8 bg-linear-to-br from-slate-900 to-slate-800 border-2 border-green-500 rounded-lg">
@@ -14,7 +13,7 @@ export default function Resultado({ textoAnalisado }: { textoAnalisado: string }
         <h2 className="text-xl text-green-400">Resultado da Análise</h2>
         <div className="flex items-center gap-2 px-3 py-1 bg-green-500/20 border border-green-500 rounded-full">
           <span className="text-2xl">👍</span>
-          <span className="text-green-400 font-semibold">{respostaApi.previsao}</span>
+          <span className="text-green-400 font-semibold">{resultadoApi.previsao || resultadoApi.prediction}</span>
         </div>
       </div>
 
@@ -22,10 +21,10 @@ export default function Resultado({ textoAnalisado }: { textoAnalisado: string }
         <div className="flex items-center gap-2 mb-3">
           <span className="text-xl">📈</span>
           <span className="text-gray-400">Confiança da Predição</span>
-          <span className="text-3xl font-bold text-green-400 ml-auto">{Math.round(respostaApi.probabilidade * 100)}%</span>
+          <span className="text-3xl font-bold text-green-400 ml-auto">{Math.round((resultadoApi.probabilidade || resultadoApi.confidence || 0) * 100)}%</span>
         </div>
         <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
-          <div className="bg-green-500 h-full rounded-full" style={{ width: `${respostaApi.probabilidade * 100}%` }}></div>
+          <div className="bg-green-500 h-full rounded-full" style={{ width: `${(resultadoApi.probabilidade || resultadoApi.confidence || 0) * 100}%` }}></div>
         </div>
       </div>
 
