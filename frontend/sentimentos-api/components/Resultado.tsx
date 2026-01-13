@@ -20,7 +20,7 @@ export default function Resultado({ textoAnalisado, resultadoApi }: ResultadoPro
   const isPositivo = resultadoApi.previsao === 'Positivo' || resultadoApi.prediction === 'Positivo';
   const corBorda = isPositivo ? 'green-500' : 'red-500';
   const corTexto = isPositivo ? 'green-400' : 'red-400';
-  const corBg = isPositivo ? 'green-500' : 'red-500';
+  const corBg = isPositivo ? 'green-500/30' : 'red-500/30';
   const corBarraProgresso = isPositivo ? 'bg-green-500' : 'bg-red-500';
   const emoji = isPositivo ? '👍' : '👎';
 
