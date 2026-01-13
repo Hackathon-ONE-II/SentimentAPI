@@ -22,35 +22,45 @@ export default function TelaPrincipal() {
   const [textoAnalisado, setTextoAnalisado] = useState("");
   const [resultadoApi, setResultadoApi] = useState<ResultadoAnalise | null>(null);
 
-  return (
-    <div className="flex min-h-screen items-center justify-center flex-col">
-      <header className="fixed top-0 left-0 right-0 w-full z-50 shadow-md hover:shadow-lg transition-shadow duration-300 pt-5">
-        <Titulo />
-      </header>
-      <main className="relative container mx-auto px-4 py-8 space-y-12 mt-20">
-        <TextoPrincipal />
-        <Subtitulo />
+return (
+  <div className="min-h-screen flex flex-col">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background shadow-md">
+      <Titulo />
+    </header>
+
+    <main className="flex-1 w-full pt-24 px-4 md:px-8 max-w-7xl mx-auto space-y-12">
+      <TextoPrincipal />
+      <Subtitulo />
+
+      <div className="flex justify-center">
+        <ReferenciaTextual />
+      </div>
+
+      {/* Card + Resultado */}
+      <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 place-items-center">
         
-        <div className="flex flex-wrap items-center justify-center gap-6 pt-4 animate-slide-up" style={{ animationDelay: '0.3s' }}>
-          <ReferenciaTextual />
+        {/* CardPrincipal */}
+        <div className="w-full max-w-xl">
+          <CardPrincipal
+            onTextoChange={setTextoAnalisado}
+            onAnalise={setResultadoApi}
+          />
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-6 pt-4 animate-slide-up" style={{ animationDelay: '0.3s' }}>
-          <div className="w-180 flex-col items-center gap-2 mb-10">
-            <CardPrincipal onTextoChange={setTextoAnalisado} onAnalise={setResultadoApi} />
-          </div>
-        </div>
-
+        {/* Resultado */}
         {resultadoApi && (
-          <div className="flex flex-wrap items-center justify-center gap-6 pt-4 animate-slide-up" style={{ animationDelay: '0.3s' }}>
-            <div className="w-200 flex-col items-center gap-2 mb-10 ml-27">
-              <Resultado textoAnalisado={textoAnalisado} resultadoApi={resultadoApi} />
-            </div>
+          <div className="w-full max-w-xl">
+            <Resultado
+              textoAnalisado={textoAnalisado}
+              resultadoApi={resultadoApi}
+            />
           </div>
         )}
-        
-        <Footer />
-      </main>
-    </div>
-  );
+
+      </div>
+
+      <Footer />
+    </main>
+  </div>
+);
 }

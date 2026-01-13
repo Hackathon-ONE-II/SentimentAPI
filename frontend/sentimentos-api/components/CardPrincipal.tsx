@@ -62,25 +62,50 @@ export default function CardPrincipal({ onTextoChange, onAnalise }: CardPrincipa
     }
   };
 
-  return (
-    <>
-      <div className="w-full animate-slide-up">
-        <textarea 
-          placeholder="Digite aqui..." 
-          value={texto}
-          onChange={handleTextoChange}
-          className="w-full h-80 px-4 py-3 bg-gray-800 text-white rounded border border-gray-600 focus:outline-none focus:border-blue-500 transition resize-none placeholder-shown:text-sm"
-        />
-      </div>
-      <div className="mt-6">
-        <button 
-          onClick={handleAnalisar}
-          disabled={carregando}
-          className="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 active:bg-blue-800 cursor-pointer transition duration-200 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {carregando ? 'Analisando...' : 'Analisar Sentimento'}
-        </button>
-      </div>
-    </>
-  )
+return (
+  <div className="w-full space-y-4">
+    <textarea 
+      placeholder="Digite aqui..." 
+      value={texto}
+      onChange={handleTextoChange}
+      className="
+        w-full 
+        min-h-[200px] 
+        md:min-h-[320px]
+        px-4 py-3 
+        bg-gray-800 
+        text-white 
+        rounded-lg 
+        border border-gray-600 
+        focus:outline-none 
+        focus:border-blue-500 
+        transition 
+        resize-none
+      "
+    />
+
+    <button 
+      onClick={handleAnalisar}
+      disabled={carregando}
+      className="
+        w-full 
+        px-6 py-3 
+        bg-blue-600 
+        text-white 
+        font-semibold 
+        rounded-lg 
+        hover:bg-blue-700 
+        active:bg-blue-800 
+        transition 
+        duration-200 
+        shadow-md 
+        disabled:opacity-50 
+        disabled:cursor-not-allowed
+        cursor-pointer
+      "
+    >
+      {carregando ? 'Analisando...' : 'Analisar Sentimento'}
+    </button>
+  </div>
+);
 }
