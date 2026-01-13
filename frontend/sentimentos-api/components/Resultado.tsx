@@ -20,12 +20,12 @@ export default function Resultado({ textoAnalisado, resultadoApi }: ResultadoPro
   const isPositivo = resultadoApi.previsao === 'Positivo' || resultadoApi.prediction === 'Positivo';
   const corBorda = isPositivo ? 'green-500' : 'red-500';
   const corTexto = isPositivo ? 'green-400' : 'red-400';
-  const corBg = isPositivo ? 'green-500/20' : 'red-500/20';
+  const corBg = isPositivo ? 'green-500' : 'red-500';
   const corBarraProgresso = isPositivo ? 'bg-green-500' : 'bg-red-500';
   const emoji = isPositivo ? '👍' : '👎';
 
   return (
-    <div className={`w-full p-4 md:p-6 bg-gradient-to-br from-slate-900 to-slate-800 border border-${corBorda} rounded-xl space-y-6`}>
+    <div className={`w-full p-4 md:p-6 bg-linear-to-br from-slate-900 to-slate-800 border border-${corBorda} rounded-xl space-y-6`}>
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -62,7 +62,7 @@ export default function Resultado({ textoAnalisado, resultadoApi }: ResultadoPro
     {/* Texto analisado */}
     <div className="space-y-2">
       <h3 className="text-gray-400 text-sm">Texto Analisado</h3>
-      <p className="text-gray-300 italic bg-gray-800/50 p-3 md:p-4 rounded border border-gray-700 text-sm md:text-base break-words">
+      <p className="text-gray-300 italic bg-gray-800/50 p-3 md:p-4 rounded border border-gray-700 text-sm md:text-base wrap-break-word">
         {textoAnalisado}
       </p>
     </div>
