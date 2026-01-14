@@ -34,7 +34,8 @@ export default function CardPrincipal({ onTextoChange, onAnalise }: CardPrincipa
 
     setCarregando(true);
     try {
-      const response = await fetch('http://localhost:8080/sentiment/analyze', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+      const response = await fetch(`${apiUrl}/sentiment/analyze`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +52,7 @@ export default function CardPrincipal({ onTextoChange, onAnalise }: CardPrincipa
     } catch (error) {
       console.error('Erro completo:', error);
       const mensagem = error instanceof Error ? error.message : String(error);
-      
+
       if (mensagem.includes('Failed to fetch')) {
         alert('Erro: Não conseguimos conectar ao servidor de análise.\n\nCertifique-se de que:\n1. O servidor em localhost:8000 está rodando\n2. A API está acessível');
       } else {
@@ -62,13 +63,13 @@ export default function CardPrincipal({ onTextoChange, onAnalise }: CardPrincipa
     }
   };
 
-return (
-  <div className="w-full space-y-4">
-    <textarea 
-      placeholder="Digite aqui..." 
-      value={texto}
-      onChange={handleTextoChange}
-      className="
+  return (
+    <div className="w-full space-y-4">
+      <textarea
+        placeholder="Digite aqui..."
+        value={texto}
+        onChange={handleTextoChange}
+        className="
         w-full 
         min-h-[200px] 
         md:min-h-[320px]
@@ -82,12 +83,12 @@ return (
         transition 
         resize-none
       "
-    />
+      />
 
-    <button 
-      onClick={handleAnalisar}
-      disabled={carregando}
-      className="
+      <button
+        onClick={handleAnalisar}
+        disabled={carregando}
+        className="
         w-full 
         px-6 py-3 
         bg-blue-600 
@@ -103,9 +104,9 @@ return (
         disabled:cursor-not-allowed
         cursor-pointer
       "
-    >
-      {carregando ? 'Analisando...' : 'Analisar Sentimento'}
-    </button>
-  </div>
-);
+      >
+        {carregando ? 'Analisando...' : 'Analisar Sentimento'}
+      </button>
+    </div>
+  );
 }

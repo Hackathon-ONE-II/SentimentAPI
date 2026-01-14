@@ -46,7 +46,10 @@ services:
       - sentiment-net
 
   frontend:
-    build: ./frontend/sentimentos-api
+    build:
+      context: ./frontend/sentimentos-api
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080}
     container_name: sentiment-frontend
     ports:
       - "3000:3000"

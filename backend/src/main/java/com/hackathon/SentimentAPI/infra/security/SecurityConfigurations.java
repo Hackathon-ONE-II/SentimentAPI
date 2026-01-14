@@ -48,6 +48,7 @@ public class SecurityConfigurations {
 
             // Regras de acesso
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Permitir preflight requests
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                 .requestMatchers(HttpMethod.GET, "/login/gerar-senha").permitAll()
                 .requestMatchers(HttpMethod.GET, "/health").permitAll()
@@ -68,7 +69,7 @@ public class SecurityConfigurations {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:3000"));
+        config.setAllowedOriginPatterns(List.of("*")); // Usar padrão para suportar credenciais
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
