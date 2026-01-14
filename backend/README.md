@@ -89,9 +89,18 @@ POST {ml.service.url}/predict
 **Resposta esperada do ML:**
 ```json
 {
-  "texto_processado": "gostei produto",
-  "previsao": "Positivo",
-  "probabilidade": 0.95
+   "previsao": "Positivo",
+   "probabilidade": 0.9982,
+   "mensagem_processada": "Texto analisado com sucesso.",
+   "principais_palavras": [
+      "gostei produto",
+      "gostei",
+      "produto"
+   ],
+   "debug_info": {
+      "texto_original": "Gostei muito do produto",
+      "texto_limpo": "gostei produto"
+   }
 }
 ```
 
@@ -102,7 +111,8 @@ POST {ml.service.url}/predict
 public record MlServiceResponse(
         String textoProcessado,  // Opcional - ignorado se não existir
         String previsao,         // "Positivo", "Negativo"
-        Double probabilidade     // 0.0 a 1.0
+        Double probabilidade,     // 0.0 a 1.0
+        List<String> principais_palavras // Principais palavras que influenciaram a análise
 ) {}
 ```
 
@@ -162,8 +172,14 @@ POST /sentiment/analyze
 **Response (sucesso):**
 ```json
 {
-  "previsao": "Positivo",
-  "probabilidade": 0.87
+   "previsao": "Positivo",
+   "probabilidade": 0.9138,
+   "status": "SUCCESS",
+   "principais_palavras": [
+      "qualidade",
+      "ótima",
+      "ótima qualidade"
+   ]
 }
 ```
 
@@ -219,6 +235,27 @@ GET /hello
 **Response:**
 ```
 Hello World! TESTE
+```
+
+### 🔹 5. Endpoint de Login
+
+```http
+POST /login
+```
+
+**Request:**
+```json
+{
+   "username": "ana.souza@gmail.com",
+   "password": "123456"
+}
+```
+
+**Response (sucesso):**
+```json
+{
+   "token": "<JWT_TOKEN>"
+}
 ```
 
 ---
