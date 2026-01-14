@@ -47,7 +47,7 @@ Ele expõe uma **API REST** responsável por receber textos, validar a entrada, 
 | **Business Layer** | `SentimentService` | Orquestração da análise, fallback, lógica de negócio |
 | **Integration Layer** | `MlServiceClient` | Comunicação com serviço externo de ML |
 | **Data Layer** | `SentimentStatsService` | Coleta de estatísticas de uso |
-| **Validation Layer** | DTOs com Bean Validation | Validação de dados de entrada |
+| **Validation Layer** | `DTOs com Bean Validation` | Validação de dados de entrada |
 | **Error Handling** | `GlobalExceptionHandler` | Tratamento global de exceções |
 
 ---
@@ -57,12 +57,15 @@ Ele expõe uma **API REST** responsável por receber textos, validar a entrada, 
 * **Java 17+**
 * **Spring Boot 3.x**
 * **Spring Web**
+* **PostgreSQL**
 * **Bean Validation (Jakarta Validation 3.0)**
 * **Spring Boot Actuator** (para health checks)
 * **RestTemplate** (cliente HTTP com timeouts configurados)
 * **Docker & Docker Compose** (containerização)
 * **FastAPI** (microserviço consumido externamente)
 * **SLF4J + Logback** (logging estruturado)
+* **Spring Data JPA/Hibernate** (persistência de dados)
+* **Spring Security JWT e Auth0** (autorização e autenticação)
 
 ---
 
