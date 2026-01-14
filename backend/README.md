@@ -333,11 +333,12 @@ docker compose up --build
 
 ### 2. Serviços expostos
 
-| Serviço | Porta | URL de Acesso |
-|---------|-------|---------------|
-| **Backend (Spring Boot)** | 8080 | http://localhost:8080 |
-| **ML Service (FastAPI)** | 8000 | http://localhost:8000 |
-| **ML Service Docs** | 8000 | http://localhost:8000/docs |
+| Serviço                   | Porta | URL de Acesso         |
+|---------------------------|-------|-----------------------|
+| **Backend (Spring Boot)** | 8080  | http://localhost:8080 |
+| **ML Service (FastAPI)**  | 8000  | http://localhost:8000 |
+| **ML Service Docs**       | 8000  | http://localhost:8000/docs |
+| **Frontend (Next.js)**    | 3000  | http://localhost:3000 |
 
 ### 3. Comandos úteis
 
