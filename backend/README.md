@@ -67,40 +67,6 @@ Ele expõe uma **API REST** responsável por receber textos, validar a entrada, 
 * **Spring Data JPA/Hibernate** (persistência de dados)
 * **Spring Security JWT e Auth0** (autorização e autenticação)
 
----
-
-## 📁 Estrutura do Projeto
-
-```
-backend/
-├── src/main/java/com/hackathon/SentimentAPI/
-│   ├── controller/
-│   │   ├── SentimentController.java
-│   │   ├── StatsController.java
-│   │   └── HelloController.java
-│   ├── service/
-│   │   ├── SentimentService.java
-│   │   └── SentimentStatsService.java
-│   ├── client/
-│   │   └── MlServiceClient.java
-│   ├── dto/
-│   │   ├── SentimentRequest.java
-│   │   ├── SentimentResponse.java
-│   │   └── MlServiceResponse.java
-│   ├── domain/
-│   │   └── Sentiment.java
-│   ├── exception/
-│   │   └── GlobalExceptionHandler.java
-│   ├── config/
-│   │   └── RestTemplateConfig.java
-│   └── SentimentApiApplication.java
-├── src/main/resources/
-│   ├── application.properties
-│   └── messages.properties (validações i18n)
-├── Dockerfile
-├── docker-compose.yml
-└── README.md
-```
 
 ---
 
@@ -135,7 +101,7 @@ POST {ml.service.url}/predict
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record MlServiceResponse(
         String textoProcessado,  // Opcional - ignorado se não existir
-        String previsao,         // "Positivo", "Negativo", "Neutro"
+        String previsao,         // "Positivo", "Negativo"
         Double probabilidade     // 0.0 a 1.0
 ) {}
 ```
@@ -275,7 +241,7 @@ O campo `text` é rigorosamente validado:
   "timestamp": "2024-01-15T10:30:00",
   "status": 400,
   "erros": {
-    "text": "Texto deve ter pelo menos 5 caracteres"
+    "text": "Texto deve ter pelo menos 3 caracteres"
   }
 }
 ```
@@ -446,66 +412,6 @@ curl http://localhost:8080/actuator/health
 - API documentada via exemplos
 - Fácil configuração via Docker
 - Endpoints de teste incluídos
-
----
-
-## 📌 Observação para o Time de Data Science
-
-O backend foi projetado para máxima flexibilidade:
-
-1. **Independência de Modelo**: Troque o modelo ML sem modificar o backend
-2. **Payload Flexível**: Adicione campos à resposta do ML que serão ignorados automaticamente
-3. **Formato Padrão**: Mantenha `previsao` (String) e `probabilidade` (Double)
-4. **Teste Fácil**: Use o endpoint `/sentiment/analyze` para testar seu modelo
-
-**Exemplo de mudança segura:**
-```json
-// Nova resposta do ML (com campos extras)
-{
-  "previsao": "Positivo",
-  "probabilidade": 0.92,
-  "texto_processado": "ótimo produto",
-  "confidence_score": 0.98,      // ← Novo campo (ignorado)
-  "model_version": "2.1"         // ← Novo campo (ignorado)
-}
-// Backend continua funcionando normalmente!
-```
-
----
-
-## 🚀 Próximos Passos (Roadmap)
-
-| Prioridade | Funcionalidade | Status |
-|------------|----------------|--------|
-| Alta | Circuit Breaker com Resilience4j | ⏳ Planejado |
-| Alta | Cache de respostas (Redis) | ⏳ Planejado |
-| Média | Autenticação JWT | ⏳ Futuro |
-| Média | Rate Limiting | ⏳ Futuro |
-| Baixa | Swagger/OpenAPI automático | ⏳ Futuro |
-| Baixa | Exportação de estatísticas | ⏳ Futuro |
-
----
-
-## ❓ FAQ (Perguntas Frequentes)
-
-**Q: O backend funciona sem o serviço de ML?**  
-✅ **Sim!** Implementa fallback automático, retornando "Indefinido" quando o ML está indisponível.
-
-**Q: Posso mudar o modelo de Machine Learning?**  
-✅ **Sim!** Basta manter o contrato da API (`previsao` e `probabilidade`).
-
-**Q: Como monitorar erros?**  
-📊 Use os logs da aplicação ou o endpoint `/stats` para ver contagens de fallback.
-
-**Q: É seguro para produção?**  
-🛡️ **Sim**, com configurações adicionais:  
-1. Adicione autenticação  
-2. Configure HTTPS  
-3. Ajuste timeouts conforme sua rede  
-4. Monitore com Prometheus/Grafana
-
-**Q: Como escalar?**  
-🐳 Use Docker Compose ou Kubernetes para múltiplas instâncias.
 
 ---
 
