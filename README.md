@@ -328,17 +328,17 @@ Este projeto foi desenvolvido como parte do Hackathon ONE II - Brasil, com foco 
 ### 👥 Desenvolvido pelas equipes
 
 **Data Science**: Treinamento de modelos, limpeza de dados.
-- André Gabos — [GitHub]() | [LinkedIn]()
-- Jose Evangelista — [GitHub]() | [LinkedIn]()
-- Silvina Sousa — [GitHub]() | [LinkedIn]()
+- André Gabos — [GitHub](https://github.com/andregabos) | [LinkedIn]()
+- Jose Evangelista — [GitHub](https://github.com/JoseSilva84) | [LinkedIn]()
+- Silvina Sousa — [GitHub](https://github.com/SilvinaMatos) | [LinkedIn]()
 
 **Backend Engineering**: Arquitetura resiliente, Spring Boot.
-- Camila Lopes — [GitHub](https://github.com/camlopes) | [LinkedIn](www.linkedin.com/in/camila-lopes00)
-- Rick Clayton — [GitHub]() | [LinkedIn]()
-- Victor Manuel — [GitHub]() | [LinkedIn]()
+- Camila Lopes — [GitHub](https://github.com/camlopes) | [LinkedIn](https://www.linkedin.com/in/camila-lopes00/)
+- Rick Clayton — [GitHub](https://github.com/RC33N) | [LinkedIn]()
+- Victor Manuel — [GitHub](https://github.com/Orion1914) | [LinkedIn]()
 
 **Frontend Development**: UI/UX, Next.js.
-- Jose Evangelista — [GitHub]() | [LinkedIn]()
+- Jose Evangelista — [GitHub](https://github.com/JoseSilva84) | [LinkedIn]()
 
 ### 🤝 Créditos e Agradecimentos
 
