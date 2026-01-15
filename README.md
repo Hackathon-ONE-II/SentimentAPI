@@ -58,9 +58,37 @@ O contrato de API entre Backend e ML Service é flexível. O time de Data Scienc
 
 ---
 
-## 🚀 Como Rodar (Quick Start)
+## 🔗 Acesso ao Deploy Projeto
 
-A maneira recomendada de rodar o projeto é utilizando **Docker Compose**. Isso garante que todas as dependências (Java, Python, Bancos de Dados) estejam isoladas e configuradas corretamente.
+Este projeto está hospedado na **Oracle Cloud Infrastructure (OCI)** e possui Frontend com autenticação via tela de login.
+
+### URL de acesso
+
+- http://163.176.145.187:3000/
+
+### Credenciais de acesso
+
+Utilize as credenciais abaixo para acessar o sistema:
+
+```text
+Login: testes 
+Senha: 123456
+```
+
+> ⚠️ *Atenção:
+Estas credenciais são exclusivas para fins de avaliação no hackathon e poderão ser desativadas ou alteradas após o encerramento do evento.*
+
+### Processo de login
+
+1. Acesse a URL do projeto acima
+2. Informe o **usuário** e a **senha** acima
+3. Após o login, o usuário terá acesso às funcionalidades disponíveis no sistema
+
+---
+
+## 🚀 Como Rodar Localmente (Quick Start)
+
+A maneira recomendada de rodar o projeto localmente é utilizando **Docker Compose**. Isso garante que todas as dependências (Java, Python, Bancos de Dados) estejam isoladas e configuradas corretamente.
 
 ### Pré-requisitos
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado e rodando.
