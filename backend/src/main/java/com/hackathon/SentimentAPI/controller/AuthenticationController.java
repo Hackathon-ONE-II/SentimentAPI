@@ -28,13 +28,13 @@ public class AuthenticationController {
 
     // TEMPORÁRIO: Apenas para testar se o endpoint está protegido
 
-    @Autowired
+    /*@Autowired
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/gerar-senha")
     public String gerarSenha() {
         return passwordEncoder.encode("123456");
-    }
+    } */
 
     @Autowired
     private AuthenticationManager manager;

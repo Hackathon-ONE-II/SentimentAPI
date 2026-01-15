@@ -53,6 +53,7 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.GET, "/login/gerar-senha").permitAll()
                 .requestMatchers(HttpMethod.GET, "/health").permitAll()
                 .requestMatchers(HttpMethod.POST, "/sentiment/analyze").permitAll()
+                .requestMatchers(HttpMethod.GET, "/stats/**").permitAll()
                 .anyRequest().authenticated()
             )
 
