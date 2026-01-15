@@ -58,7 +58,7 @@ O contrato de API entre Backend e ML Service é flexível. O time de Data Scienc
 
 ---
 
-## 🔗 Acesso ao Deploy Projeto
+## 🔗 Acesso ao Deploy do Projeto
 
 Este projeto está hospedado na **Oracle Cloud Infrastructure (OCI)** e possui Frontend com autenticação via tela de login.
 
@@ -257,6 +257,23 @@ GET /hello
 ```
 Hello World! TESTE
 ```
+
+---
+
+## 🛠️ Dependências e versões das ferramentas utilizadas
+
+* **Java 17+**
+* **Spring Boot 3.x**
+* **Spring Web**
+* **PostgreSQL 15**
+* **Bean Validation (Jakarta Validation 3.0)**
+* **Spring Boot Actuator** (para health checks)
+* **RestTemplate** (cliente HTTP com timeouts configurados)
+* **Docker & Docker Compose** (containerização)
+* **FastAPI** (microserviço consumido externamente)
+* **SLF4J + Logback** (logging estruturado)
+* **Spring Data JPA/Hibernate** (persistência de dados)
+* **Spring Security JWT e Auth0 4.2.1** (autorização e autenticação)
 
 ---
 
