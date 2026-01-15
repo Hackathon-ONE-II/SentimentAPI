@@ -321,10 +321,28 @@ curl -X POST http://localhost:8080/sentiment/analyze \
 
 ---
 
-## 👥 Autores e Créditos (em desenvolvimento)
+## 👥 Autores e Créditos
 
-Desenvolvido pela equipe... [COMPLETAR]
+Este projeto foi desenvolvido como parte do Hackathon ONE II - Brasil, com foco em solução técnica, colaboração em equipe e boas práticas de desenvolvimento de software.
 
-- **Data Science**: Treinamento de modelos, limpeza de dados.
-- **Backend Engineering**: Arquitetura resiliente, Spring Boot.
-- **Frontend Development**: UI/UX, Next.js.
+### 👥 Desenvolvido pelas equipes
+
+**Data Science**: Treinamento de modelos, limpeza de dados.
+- André Gabos — [GitHub]() | [LinkedIn]()
+- Jose Evangelista — [GitHub]() | [LinkedIn]()
+- Silvina Sousa — [GitHub]() | [LinkedIn]()
+
+**Backend Engineering**: Arquitetura resiliente, Spring Boot.
+- Camila Lopes — [GitHub](https://github.com/camlopes) | [LinkedIn](www.linkedin.com/in/camila-lopes00)
+- Rick Clayton — [GitHub]() | [LinkedIn]()
+- Victor Manuel — [GitHub]() | [LinkedIn]()
+
+**Frontend Development**: UI/UX, Next.js.
+- Jose Evangelista — [GitHub]() | [LinkedIn]()
+
+### 🤝 Créditos e Agradecimentos
+
+Agradecimentos especiais a:
+- Organização do hackathon pelo suporte e oportunidade
+- Mentores e avaliadores pelas orientações
+- Comunidade open source pelas ferramentas e bibliotecas utilizadas 
