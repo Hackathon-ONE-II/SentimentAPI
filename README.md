@@ -120,6 +120,146 @@ A maneira recomendada de rodar o projeto localmente é utilizando **Docker Compo
 
 ---
 
+## 📌 Exemplos de requisição e resposta (JSON)
+
+Esta seção apresenta exemplos de chamadas à API, demonstrando o formato das requisições e respostas em JSON.
+
+### 1. Autenticação – Login
+
+**Endpoint:**
+```http
+POST /login
+```
+
+**Request:**
+```json
+{
+   "username": "testes",
+   "password": "123456"
+}
+```
+
+**Response (sucesso 200 OK):**
+```json
+{
+   "token": "<JWT_TOKEN>"
+}
+```
+
+### 2. Análise de Sentimento (Endpoint Principal)
+
+**Endpoint:**
+```http
+POST /sentiment/analyze
+```
+
+👍 Abaixo é um exemplo do atributo text e previsão **positivas**:  
+
+**Request:**
+```json
+{
+  "text": "O produto chegou rápido e é de ótima qualidade"
+}
+```
+
+**Response (sucesso):**
+```json
+{
+   "previsao": "Positivo",
+   "probabilidade": 0.9138,
+   "status": "SUCCESS",
+   "principais_palavras": [
+      "qualidade",
+      "ótima",
+      "ótima qualidade"
+   ]
+}
+```
+
+👎 Abaixo é um exemplo do atributo text e previsão **negativas**:
+
+**Request:**
+```json
+{
+  "text": "O produto demorou para chegar e é de péssima qualidade"
+}
+```
+
+**Response (sucesso):**
+```json
+{
+   "previsao": "Negativo",
+   "probabilidade": 0.9822,
+   "status": "SUCCESS",
+   "principais_palavras": [
+      "péssima",
+      "péssima qualidade",
+      "demorou"
+   ]
+}
+```
+
+Abaixo é um exemplo de fallback quando o modelo ML está indisponível:
+
+**Response:**
+```json
+{
+  "previsao": "Indefinido",
+  "probabilidade": 0.0
+}
+```
+
+### 3. Estatísticas de Uso
+
+**Endpoint:**
+```http
+GET /stats
+```
+
+**Response:**
+```json
+{
+  "Positivo": 5,
+  "Negativo": 3,
+  "Neutro": 2,
+  "Indefinido": 1,
+  "Total": 11
+}
+```
+
+### 4. Health Check
+
+**Endpoint:**
+```http
+GET /health
+```
+
+**Response:**
+```json
+{
+  "status": "UP",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "ml_service": {
+    "status": "UP",
+    "url": "http://ml-service:8000/predict"
+  }
+}
+```
+
+### 5. Endpoint de Teste
+
+**Endpoint:**
+```http
+GET /hello
+```
+
+**Response:**
+```
+Hello World! TESTE
+```
+
+---
+
 ## 📂 Estrutura do Projeto
 
 ```text
