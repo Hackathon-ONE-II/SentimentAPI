@@ -328,17 +328,17 @@ Este projeto foi desenvolvido como parte do Hackathon ONE II - Brasil, com foco 
 ### 👥 Desenvolvido pelas equipes
 
 **Data Science**: Treinamento de modelos, limpeza de dados.
-- André Gabos — [GitHub](https://github.com/andregabos) | [LinkedIn]()
-- Jose Evangelista — [GitHub](https://github.com/JoseSilva84) | [LinkedIn]()
-- Silvina Sousa — [GitHub](https://github.com/SilvinaMatos) | [LinkedIn]()
+- André Gabos — [GitHub](https://github.com/andregabos) | [LinkedIn](https://www.linkedin.com/in/andre-gabos/)
+- Jose Evangelista — [GitHub](https://github.com/JoseSilva84) | [LinkedIn](https://www.linkedin.com/in/josé-silva-dev)
+- Silvina Sousa — [GitHub](https://github.com/SilvinaMatos) | [LinkedIn](https://www.linkedin.com/in/silvina-matos)
 
 **Backend Engineering**: Arquitetura resiliente, Spring Boot.
 - Camila Lopes — [GitHub](https://github.com/camlopes) | [LinkedIn](https://www.linkedin.com/in/camila-lopes00/)
-- Rick Clayton — [GitHub](https://github.com/RC33N) | [LinkedIn]()
-- Victor Manuel — [GitHub](https://github.com/Orion1914) | [LinkedIn]()
+- Rick Clayton — [GitHub](https://github.com/RC33N) | [LinkedIn](https://www.linkedin.com/public-profile/settings?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_self_edit_contact-info%3BIZ6hTf1VRLCWbpUY%2Fj89RQ%3D%3D)
+- Victor Manuel — [GitHub](https://github.com/Orion1914) | [LinkedIn](http://www.linkedin.com/in/victorsilot)
 
 **Frontend Development**: UI/UX, Next.js.
-- Jose Evangelista — [GitHub](https://github.com/JoseSilva84) | [LinkedIn]()
+- Jose Evangelista — [GitHub](https://github.com/JoseSilva84) | [LinkedIn](https://www.linkedin.com/in/josé-silva-dev)
 
 ### 🤝 Créditos e Agradecimentos
 
