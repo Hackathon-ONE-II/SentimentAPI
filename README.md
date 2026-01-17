@@ -274,6 +274,15 @@ Hello World! TESTE
 * **SLF4J + Logback** (logging estruturado)
 * **Spring Data JPA/Hibernate** (persistência de dados)
 * **Spring Security JWT e Auth0 4.2.1** (autorização e autenticação)
+* **Next.js 16.1.1** - Framework React com SSR (Server-Side Rendering) e SSG (Static Site Generation)
+* **React 19.2.3** - Biblioteca de interface de usuário
+* **React DOM 19.2.3** - Renderização de componentes React no DOM
+* **Tailwind CSS 4** - Framework de CSS utilitário para estilização rápida e consistente
+* **PostCSS 4** - Processador de CSS avançado
+* **TypeScript 5** - Superset de JavaScript com tipagem estática
+* **Node.js 20 (Alpine)** - Runtime JavaScript para execução
+* **ESLint 9** - Linter para qualidade de código
+* **ESLint Config Next** - Configuração de linting otimizada para Next.js
 
 ---
 
