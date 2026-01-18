@@ -7,11 +7,6 @@ import Footer from "@/components/Footer";
 import TextoPrincipal from "@/components/TextoPrincipal";
 import Titulo from "@/components/Titulo";
 
-interface UsuarioApi {
-  username: string;
-  password: string;
-}
-
 export default function Home() {
   const router = useRouter();
 
@@ -23,7 +18,9 @@ export default function Home() {
     setErro("");
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+      const apiUrl =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
       const response = await fetch(`${apiUrl}/login`, {
         method: "POST",
         headers: {
@@ -36,9 +33,10 @@ export default function Home() {
       });
 
       if (response.ok) {
+        // Login OK → vai para tela principal
         router.push("/tela-principal");
       } else {
-        setErro("Login ou senha inválido");
+        setErro("Login ou senha inválidos");
       }
     } catch (error) {
       console.error("Erro ao conectar com a API:", error);
@@ -56,7 +54,7 @@ export default function Home() {
         <TextoPrincipal />
 
         <div className="w-full animate-slide-up text-center justify-center space-y-4">
-
+          {/* LOGIN */}
           <div>
             <p>Login</p>
             <input
@@ -79,10 +77,9 @@ export default function Home() {
             />
           </div>
 
-          {erro && (
-            <p className="text-red-500 text-sm">{erro}</p>
-          )}
+          {erro && <p className="text-red-500 text-sm">{erro}</p>}
 
+          {/* BOTÃO LOGIN */}
           <button
             onClick={handleLogin}
             className="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition cursor-pointer"
