@@ -5,10 +5,11 @@ import {
   ArcElement,
   Tooltip,
   Legend,
-  ChartOptions,
+  type ChartOptions,
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
+// Registro obrigatório dos módulos do Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface Props {
@@ -25,8 +26,9 @@ export default function GraficoSentimentos({
 
   const total = positivos + negativos + neutros;
 
+  // Calcula percentual com proteção contra divisão por zero
   const percent = (value: number) =>
-    total === 0 ? 0 : ((value / total) * 100).toFixed(1);
+    total === 0 ? 0 : Number(((value / total) * 100).toFixed(1));
 
   const data = {
     labels: [
@@ -47,7 +49,7 @@ export default function GraficoSentimentos({
     responsive: true,
     animation: {
       duration: 1200,
-      easing: 'easeInOutQuart', // ✅ agora tipado corretamente
+      easing: 'easeInOutQuart',
     },
     plugins: {
       legend: {
@@ -68,7 +70,7 @@ export default function GraficoSentimentos({
   };
 
   return (
-    <div className="w-full flex justify-center animate-fade-in">
+    <div className="w-full max-w-xs animate-fade-in">
       <Doughnut data={data} options={options} />
     </div>
   );

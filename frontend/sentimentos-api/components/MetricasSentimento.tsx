@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
+// Importação dinâmica do gráfico (evita erro de SSR com Chart.js)
 const GraficoSentimentos = dynamic(
   () => import("./GraficoSentimentos.client"),
   { ssr: false }
@@ -25,6 +26,7 @@ export default function MetricasSentimento() {
   const apiUrl =
     process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
+  // Carrega métricas do backend
   async function carregarMetricas() {
     try {
       const response = await fetch(`${apiUrl}/stats/v2`);
@@ -39,6 +41,7 @@ export default function MetricasSentimento() {
     }
   }
 
+  // Atualiza métricas a cada 10 segundos
   useEffect(() => {
     carregarMetricas();
     const interval = setInterval(carregarMetricas, 10000);
@@ -47,7 +50,7 @@ export default function MetricasSentimento() {
 
   if (loading) {
     return (
-      <div className="p-6 rounded-lg bg-gray-900 text-center text-gray-300">
+      <div className="p-6 rounded-xl bg-gray-900 text-center text-gray-300">
         Carregando métricas...
       </div>
     );
@@ -55,50 +58,56 @@ export default function MetricasSentimento() {
 
   if (!stats) {
     return (
-      <div className="p-6 rounded-lg bg-gray-900 text-center text-red-400">
+      <div className="p-6 rounded-xl bg-gray-900 text-center text-red-400">
         Métricas indisponíveis
       </div>
     );
   }
 
   return (
-    <div className="h-full p-6 rounded-xl bg-gradient-to-br from-gray-900 to-gray-800 shadow-xl flex flex-col justify-between animate-fade-in space-y-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
 
-      {/* HEADER */}
-      <div className="border-b border-gray-700 pb-3">
-        <h2 className="text-xl font-semibold text-white">
-          Métricas de Sentimento
-        </h2>
-        <p className="text-xs text-gray-400">
-          Endpoint: <span className="text-blue-400">/stats/v2</span>
+      {/* CARD ESQUERDO – CONTADORES */}
+      <div className="h-full rounded-xl bg-gradient-to-br from-gray-900 to-gray-800 p-6 shadow-lg flex flex-col justify-between">
+
+        {/* Header */}
+        <div className="border-b border-gray-700 pb-3 mb-4">
+          <h2 className="text-xl font-semibold text-white">
+            Métricas de Sentimento
+          </h2>
+          <p className="text-xs text-gray-500">
+            Métricas internas do sistema
+          </p>
+        </div>
+
+        {/* Contadores */}
+        <div className="grid grid-cols-2 gap-4 flex-1">
+          <MetricBox title="Total" value={stats.totalRequests} />
+          <MetricBox title="Positivos" value={stats.positivos} color="text-green-400" />
+          <MetricBox title="Neutros" value={stats.neutros} color="text-yellow-400" />
+          <MetricBox title="Negativos" value={stats.negativos} color="text-red-400" />
+        </div>
+
+        {/* Footer */}
+        <p className="text-xs text-gray-500 text-right mt-4">
+          Última atualização:{" "}
+          {new Date(stats.lastUpdated).toLocaleString("pt-BR")}
         </p>
       </div>
 
-      {/* CONTADORES */}
-      <div className="grid grid-cols-2 gap-4 text-sm text-gray-300">
-        <MetricBox title="Total" value={stats.totalRequests} />
-        <MetricBox title="Positivos" value={stats.positivos} color="text-green-400" />
-        <MetricBox title="Neutros" value={stats.neutros} color="text-yellow-400" />
-        <MetricBox title="Negativos" value={stats.negativos} color="text-red-400" />
+      {/* CARD DIREITO – GRÁFICO */}
+      <div className="h-full rounded-xl bg-gradient-to-br from-gray-900 to-gray-800 p-6 shadow-lg flex items-center justify-center">
+        <GraficoSentimentos
+          positivos={stats.positivos}
+          neutros={stats.neutros}
+          negativos={stats.negativos}
+        />
       </div>
-
-      {/* GRÁFICO */}
-      <GraficoSentimentos
-        positivos={stats.positivos}
-        neutros={stats.neutros}
-        negativos={stats.negativos}
-      />
-
-      {/* FOOTER */}
-      <p className="text-xs text-gray-500 text-right">
-        Última atualização:{" "}
-        {new Date(stats.lastUpdated).toLocaleString("pt-BR")}
-      </p>
-
     </div>
   );
 }
 
+// Componente reutilizável para métricas
 function MetricBox({
   title,
   value,
@@ -110,7 +119,7 @@ function MetricBox({
 }) {
   return (
     <div className="bg-gray-900 rounded-lg p-4">
-      <p>{title}</p>
+      <p className="text-sm text-gray-400">{title}</p>
       <p className={`text-2xl font-bold ${color}`}>{value}</p>
     </div>
   );

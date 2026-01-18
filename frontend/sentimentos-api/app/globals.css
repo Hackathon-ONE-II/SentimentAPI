@@ -1,12 +1,25 @@
 @import "tailwindcss";
 
+/* =====================================================
+   VARIÁVEIS GLOBAIS DE TEMA
+   ===================================================== */
+
 :root {
+  /* Cores base */
   --background: #171717;
   --foreground: #ffffff;
+
+  /* Superfícies */
+  --surface-dark: #111827;
+  --surface-card: #1f2937;
+
+  /* Bordas e divisões */
+  --border-subtle: rgba(255, 255, 255, 0.08);
 }
 
-/* #ffffff */
-/* #171717 */
+/* =====================================================
+   INTEGRAÇÃO COM TAILWIND (THEME INLINE)
+   ===================================================== */
 
 @theme inline {
   --color-background: var(--background);
@@ -15,21 +28,52 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* =====================================================
+   MODO ESCURO AUTOMÁTICO (SYSTEM)
+   ===================================================== */
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --surface-dark: #020617;
+    --surface-card: #020617;
   }
 }
+
+/* =====================================================
+   ESTILOS BASE DO BODY
+   ===================================================== */
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+
+  /* Melhor renderização de fontes */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Responsividade específica para telas pequenas (<= 390px) */
+/* =====================================================
+   AJUSTES GLOBAIS DE UX
+   ===================================================== */
 
+/* Remove highlight azul feio no mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Scroll suave */
+html {
+  scroll-behavior: smooth;
+}
+
+/* =====================================================
+   ANIMAÇÕES
+   ===================================================== */
+
+/* Fade-in suave usado nos gráficos e cards */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -43,5 +87,19 @@ body {
 }
 
 .animate-fade-in {
-  animation: fade-in 0.6s ease-out;
+  animation: fade-in 0.6s ease-out both;
+}
+
+/* =====================================================
+   RESPONSIVIDADE – TELAS PEQUENAS (≤ 390px)
+   ===================================================== */
+
+@media (max-width: 390px) {
+  body {
+    font-size: 14px;
+  }
+
+  .animate-fade-in {
+    animation-duration: 0.4s;
+  }
 }
