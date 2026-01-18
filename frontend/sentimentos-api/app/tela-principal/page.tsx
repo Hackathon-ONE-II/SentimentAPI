@@ -34,7 +34,16 @@ export default function TelaPrincipal() {
       </header>
 
       {/* CONTEÚDO */}
-      <main className="flex-1 w-full pt-28 px-4 md:px-8 max-w-7xl mx-auto space-y-12">
+      <main className="
+        flex-1
+        w-full
+        pt-28
+        px-4
+        md:px-8
+        max-w-7xl
+        mx-auto
+        space-y-12
+      ">
 
         <TextoPrincipal />
         <Subtitulo />
@@ -43,12 +52,28 @@ export default function TelaPrincipal() {
           <ReferenciaTextual />
         </div>
 
-        {/* 🔷 ÁREA PRINCIPAL: ANÁLISE + MÉTRICAS */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        {/* 🔷 ÁREA PRINCIPAL */}
+        <section className="
+          grid
+          grid-cols-1
+          lg:grid-cols-2
+          gap-10
+          items-stretch
+        ">
 
-          {/* 🧠 COLUNA ESQUERDA — ANÁLISE */}
-          <div className="space-y-10">
-
+          {/* 🧠 ESQUERDA — ANÁLISE */}
+          <div className="
+            rounded-xl
+            bg-gradient-to-br
+            from-gray-900
+            to-gray-800
+            p-6
+            shadow-lg
+            flex
+            flex-col
+            justify-start
+            space-y-6
+          ">
             <CardPrincipal
               onTextoChange={setTextoAnalisado}
               onAnalise={setResultadoApi}
@@ -60,11 +85,20 @@ export default function TelaPrincipal() {
                 resultadoApi={resultadoApi}
               />
             )}
-
           </div>
 
-          {/* 📊 COLUNA DIREITA — MÉTRICAS */}
-          <div className="w-full h-full">
+          {/* 📊 DIREITA — MÉTRICAS */}
+          <div className="
+            rounded-xl
+            bg-gradient-to-br
+            from-gray-900
+            to-gray-800
+            p-6
+            shadow-lg
+            flex
+            flex-col
+            justify-between
+          ">
             <MetricasSentimento />
           </div>
 
